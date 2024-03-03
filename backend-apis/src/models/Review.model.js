@@ -19,15 +19,15 @@ const reviewSchemaType = {
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "products",
+    ref: "Product",
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "users",
+    ref: "User",
     validate: {
       validator: async function (userId) {
-        const existingReview = await mongoose.models.reviews.findOne({
+        const existingReview = await mongoose.models.Review.findOne({
           userId,
           productId: this.productId,
         });
@@ -43,6 +43,6 @@ const reviewSchemaType = {
 };
 
 const reviewSchema = new Schema(reviewSchemaType);
-const Review = mongoose.model("reviews", reviewSchema);
+const Review = mongoose.model("Review", reviewSchema, "reviews");
 
 module.exports = Review;

@@ -32,7 +32,11 @@ const sendEmail = async (emailData) => {
 const sendOtpViaEmail = async (emailData) => {
   const { BREVO_USER, BREVO_PASSWORD } = process.env;
 
-  const templatePath = path.join(__dirname, "templates", "otp_template.html");
+  const templatePath = path.join(
+    __dirname,
+    "templates",
+    "forgot_password_otp_template.html"
+  );
 
   const templateContents = fs.readFileSync(templatePath, "utf8");
   const otpHtmlTemplate = templateContents.replace("#{otp}", emailData.otp);

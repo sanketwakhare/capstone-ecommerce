@@ -6,16 +6,20 @@ const userRolesSchemaType = {
   userId: {
     type: mongoose.Schema.ObjectId,
     unique: true,
-    ref: "users",
+    ref: "User",
   },
   roles: {
     type: SupportedRoleTypes,
     required: true,
-    ref: "roles",
+    ref: "Role",
   },
 };
 
 const userRoleSchema = new Schema(userRolesSchemaType);
-const UserRoleMapping = mongoose.model("user-role-mappings", userRoleSchema);
+const UserRoleMapping = mongoose.model(
+  "UserRoleMapping",
+  userRoleSchema,
+  "user-role-mappings"
+);
 
 module.exports = UserRoleMapping;

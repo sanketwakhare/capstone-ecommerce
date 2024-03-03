@@ -5,7 +5,7 @@ const orderSchemaType = {
   userId: {
     type: mongoose.Types.ObjectId,
     required: true,
-    ref: "users",
+    ref: "User",
   },
   items: {
     type: [
@@ -33,6 +33,6 @@ const orderSchemaType = {
 };
 
 const orderSchema = new Schema(orderSchemaType);
-const Order = mongoose.model("orders", orderSchema);
+const Order = mongoose.model("Order", orderSchema, "orders");
 
 module.exports = Order;

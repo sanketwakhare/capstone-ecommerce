@@ -1,10 +1,10 @@
 const ModelMappings = {
-  users: "User",
-  products: "Product",
-  orders: "Order",
-  payment: "Payment",
-  reviews: "Review",
-  roles: "Role",
+  User: "User",
+  Product: "Product",
+  Order: "Order",
+  Payment: "Payment",
+  Review: "Review",
+  Role: "Role",
 };
 
 module.exports = ModelMappings;

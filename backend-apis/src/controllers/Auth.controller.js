@@ -6,7 +6,7 @@ const {
 const {
   sendOtpViaEmail,
 } = require("../common/services/email/BrevoEmailSenderService");
-const { otpGenerator } = require("../common/services/opt/OtpGeneratorService");
+const { generateOTP } = require("../common/services/opt/OtpGeneratorService");
 const UserOtpMapping = require("../models/UserOtpMapping.model");
 const AppError = require("../common/errors/AppError");
 const { RoleType } = require("../common/constants/RoleType");
@@ -109,7 +109,7 @@ const forgotPassword = async (req, res, next) => {
       throw new AppError(404, `User ${email} not found`);
     }
     // generate random otp
-    const otp = otpGenerator();
+    const otp = generateOTP();
 
     // store OTP and expiry in database against userId
     const otpExistsForUser = await UserOtpMapping.findOne({ userId: user.id });

@@ -4,10 +4,10 @@ const PaymentStatus = {
   FAILED: "failed",
 };
 
-const PaymentTypes = [
+const PaymentStatusTypes = [
   PaymentStatus.PENDING,
   PaymentStatus.PAID,
   PaymentStatus.FAILED,
 ];
 
-module.exports = { PaymentStatus, PaymentTypes };
+module.exports = { PaymentStatus, PaymentStatusTypes };

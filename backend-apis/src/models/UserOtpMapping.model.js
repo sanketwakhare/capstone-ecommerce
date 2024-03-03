@@ -11,7 +11,7 @@ const usersOtpSchemaType = {
   userId: {
     type: mongoose.Schema.ObjectId,
     unique: true,
-    ref: "users",
+    ref: "User",
   },
   expiresAt: {
     type: Date,
@@ -28,8 +28,9 @@ const usersOtpSchemaType = {
 
 const userOtpMappingSchema = new Schema(usersOtpSchemaType);
 const UserOtpMapping = mongoose.model(
-  "user-otp-mappings",
-  userOtpMappingSchema
+  "UserOtpMapping",
+  userOtpMappingSchema,
+  "user-otp-mappings"
 );
 
 module.exports = UserOtpMapping;
