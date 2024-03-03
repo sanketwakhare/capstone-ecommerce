@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
     const payload = {
       email: email
     };
-    const token = createToken(payload);
+    const token = await createToken(payload);
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 30 // 30 mins
@@ -81,10 +81,10 @@ const login = async (req, res, next) => {
 };
 
 // verify jwt token
-const verify = (req, res, next) => {
+const verify = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-    const decodedTokenData = verifyToken(token);
+    const decodedTokenData = await verifyToken(token);
     res.status(200).send({
       message: "valid token",
       data: decodedTokenData
@@ -95,7 +95,7 @@ const verify = (req, res, next) => {
 };
 
 // logout
-const logout = (req, res, next) => {
+const logout = async (req, res, next) => {
   try {
     res.clearCookie("token");
     res.status(200).send({ message: "User logged out successfully" });

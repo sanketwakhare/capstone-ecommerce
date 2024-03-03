@@ -5,7 +5,7 @@ const { verifyToken } = require("../services/jwt/JWTService");
 const protectRoute = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-    const decodedTokenData = verifyToken(token);
+    const decodedTokenData = await verifyToken(token);
     const email = decodedTokenData.email;
     const user = await User.findOne({ email: email });
     req.userId = user.id;
