@@ -1,5 +1,5 @@
-const Product = require("../models/Product.model");
 const CrudFactory = require("../common/factories/CrudFactory");
+const Product = require("../models/Product.model");
 
 const createProduct = CrudFactory.create(Product);
 const getProductById = CrudFactory.getById(Product);
@@ -63,7 +63,7 @@ const searchProducts = async (req, res, next) => {
     }
 
     res.status(200).send({
-      data: products,
+      data: products
     });
   } catch (error) {
     next(error);
@@ -76,5 +76,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getAllProducts,
-  searchProducts,
+  searchProducts
 };

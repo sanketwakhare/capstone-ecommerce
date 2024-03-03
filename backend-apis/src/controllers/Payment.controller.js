@@ -1,6 +1,8 @@
+const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
-const crypto = require("crypto");
+
+const { Currencies } = require("../common/constants/Currencies");
 const AppError = require("../common/errors/AppError");
 const Payment = require("../models/Payment.model");
 
@@ -10,14 +12,14 @@ const createTxnPaymentOrder = async (req, res, next) => {
 
     const instance = new Razorpay({
       key_id: RAZORPAY_PUBLIC_KEY,
-      key_secret: RAZORPAY_PRIVATE_KEY,
+      key_secret: RAZORPAY_PRIVATE_KEY
     });
 
     const { amount, currency } = req.body;
     const options = {
       amount: amount,
-      currency: currency ?? "INR",
-      receipt: shortid.generate(),
+      currency: currency ?? Currencies.INR,
+      receipt: shortid.generate()
     };
 
     // create a payment order
@@ -27,7 +29,7 @@ const createTxnPaymentOrder = async (req, res, next) => {
       message: "Payment order created successfully",
       orderId: orderDetails.id,
       amount: orderDetails.amount,
-      currency: orderDetails.currency,
+      currency: orderDetails.currency
     });
   } catch (error) {
     next(error);
@@ -55,15 +57,8 @@ const verifyPaymentSignature = async (req, res, next) => {
 
 const capturePaymentTransaction = async (req, res, next) => {
   try {
-    const {
-      orderId,
-      txnOrderId,
-      txnPaymentId,
-      txnPaymentStatus,
-      txnPaymentCompletedAt,
-      totalAmount,
-      currency,
-    } = req.body;
+    const { orderId, txnOrderId, txnPaymentId, txnPaymentStatus, txnPaymentCompletedAt, totalAmount, currency } =
+      req.body;
 
     const paymentTransaction = new Payment({
       orderId,
@@ -72,7 +67,7 @@ const capturePaymentTransaction = async (req, res, next) => {
       txnPaymentStatus,
       txnPaymentCompletedAt,
       totalAmount,
-      currency,
+      currency
     });
 
     await paymentTransaction.save();
@@ -86,5 +81,5 @@ const capturePaymentTransaction = async (req, res, next) => {
 module.exports = {
   createTxnPaymentOrder,
   verifyPaymentSignature,
-  capturePaymentTransaction,
+  capturePaymentTransaction
 };

@@ -1,6 +1,5 @@
 const User = require("../../models/User.model");
 const UserRoleMapping = require("../../models/UserRoleMapping.model");
-const { RoleType } = require("../constants/RoleType");
 const AppError = require("../errors/AppError");
 
 const authorization = (allowedRoles) => {
@@ -12,9 +11,7 @@ const authorization = (allowedRoles) => {
       if (user) {
         const userRoles = await UserRoleMapping.findOne({ userId: userId });
         const roles = userRoles?.roles || [];
-        const isAuthorized = (allowedRoles || []).some((role) =>
-          roles.includes(role)
-        );
+        const isAuthorized = (allowedRoles || []).some((role) => roles.includes(role));
         if (!isAuthorized) {
           throw new AppError(401, "Unauthorized Access");
         }
@@ -29,5 +26,5 @@ const authorization = (allowedRoles) => {
 };
 
 module.exports = {
-  authorization,
+  authorization
 };

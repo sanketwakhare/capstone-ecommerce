@@ -7,14 +7,12 @@ const createOrder = async (req, res, next) => {
       userId: req.userId,
       items: items,
       totalAmount: totalAmount,
-      currency: currency,
+      currency: currency
     });
 
     const order = await newOrder.save();
 
-    res
-      .status(200)
-      .json({ message: "Order created successfully", orderId: order.id });
+    res.status(200).json({ message: "Order created successfully", orderId: order.id });
   } catch (error) {
     next(error);
   }

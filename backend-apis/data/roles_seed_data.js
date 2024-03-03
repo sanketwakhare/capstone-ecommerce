@@ -1,11 +1,13 @@
 const rolesSeedData = [
   {
-    name: "user",
+    name: "user"
   },
   {
-    name: "admin",
+    name: "admin"
   },
   {
-    name: "seller",
-  },
+    name: "seller"
+  }
 ];
+
+module.exports = { rolesSeedData };

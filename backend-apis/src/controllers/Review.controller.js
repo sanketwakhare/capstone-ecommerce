@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const Review = require("../models/Review.model");
+
 const CrudFactory = require("../common/factories/CrudFactory");
+const Review = require("../models/Review.model");
 
 const createReview = CrudFactory.create(Review);
 
@@ -9,14 +10,14 @@ const getAverageRatingOfProduct = async (req, res, next) => {
     const { productId } = req.params;
     const result = await Review.aggregate([
       {
-        $match: { productId: new mongoose.Types.ObjectId(productId) },
+        $match: { productId: new mongoose.Types.ObjectId(productId) }
       },
       {
         $group: {
           _id: "$productId",
-          averageRating: { $avg: "$rating" },
-        },
-      },
+          averageRating: { $avg: "$rating" }
+        }
+      }
     ]);
 
     let averageRating = 0;
@@ -31,5 +32,5 @@ const getAverageRatingOfProduct = async (req, res, next) => {
 
 module.exports = {
   createReview,
-  getAverageRatingOfProduct,
+  getAverageRatingOfProduct
 };

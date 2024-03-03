@@ -1,6 +1,6 @@
 // Brevo email service
-const nodemailer = require("nodemailer");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 const path = require("path");
 
 const sendEmail = async (emailData) => {
@@ -12,8 +12,8 @@ const sendEmail = async (emailData) => {
     secure: false,
     auth: {
       user: BREVO_USER,
-      pass: BREVO_PASSWORD,
-    },
+      pass: BREVO_PASSWORD
+    }
   };
 
   const transporter = nodemailer.createTransport(techDetails);
@@ -21,7 +21,7 @@ const sendEmail = async (emailData) => {
     to: "sanketwakhare@gmail.com",
     from: "sanketwakhare@gmail.com",
     subject: "Sending Email with nodemailer",
-    html: "<strong>Nodemailer is sending email now</strong>",
+    html: "<strong>Nodemailer is sending email now</strong>"
   };
 
   const emailDataObject = { ...defaultEmailData, ...emailData };
@@ -32,11 +32,7 @@ const sendEmail = async (emailData) => {
 const sendOtpViaEmail = async (emailData) => {
   const { BREVO_USER, BREVO_PASSWORD } = process.env;
 
-  const templatePath = path.join(
-    __dirname,
-    "templates",
-    "forgot_password_otp_template.html"
-  );
+  const templatePath = path.join(__dirname, "templates", "forgot_password_otp_template.html");
 
   const templateContents = fs.readFileSync(templatePath, "utf8");
   const otpHtmlTemplate = templateContents.replace("#{otp}", emailData.otp);
@@ -47,8 +43,8 @@ const sendOtpViaEmail = async (emailData) => {
     secure: false,
     auth: {
       user: BREVO_USER,
-      pass: BREVO_PASSWORD,
-    },
+      pass: BREVO_PASSWORD
+    }
   };
 
   const transporter = nodemailer.createTransport(techDetails);
@@ -56,7 +52,7 @@ const sendOtpViaEmail = async (emailData) => {
     to: emailData.to,
     from: "sanketwakhare@gmail.com",
     subject: "Verify your login",
-    html: otpHtmlTemplate,
+    html: otpHtmlTemplate
   };
 
   return transporter.sendMail(emailDataObject);
@@ -64,5 +60,5 @@ const sendOtpViaEmail = async (emailData) => {
 
 module.exports = {
   sendEmail,
-  sendOtpViaEmail,
+  sendOtpViaEmail
 };

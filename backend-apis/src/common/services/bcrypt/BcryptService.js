@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+
 const AppError = require("../../errors/AppError");
 const saltRounds = 12;
 

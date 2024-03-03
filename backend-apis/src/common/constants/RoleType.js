@@ -1,7 +1,7 @@
 const RoleType = {
   ADMIN: "admin",
   USER: "user",
-  SELLER: "seller",
+  SELLER: "seller"
 };
 
 const SupportedRoleTypes = [RoleType.ADMIN, RoleType.USER, RoleType.SELLER];

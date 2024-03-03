@@ -1,22 +1,17 @@
+const { SupportedRoleTypes, RoleType } = require("../common/constants/RoleType");
+const AppError = require("../common/errors/AppError");
 const Role = require("../models/Role.model");
 const User = require("../models/User.model");
-const AppError = require("../common/errors/AppError");
-const {
-  SupportedRoleTypes,
-  RoleType,
-} = require("../common/constants/RoleType");
 const UserRoleMapping = require("../models/UserRoleMapping.model");
 
 const createRole = async (req, res, next) => {
   try {
     const { role } = req.body;
     const newRole = new Role({
-      name: role,
+      name: role
     });
     await newRole.save();
-    return res
-      .status(201)
-      .json({ message: `Role ${role} created successfully` });
+    return res.status(201).json({ message: `Role ${role} created successfully` });
   } catch (error) {
     next(error);
   }
@@ -49,7 +44,7 @@ const assignRoles = async (req, res, next) => {
 
     // assign roles to user
     const userRolesExists = await UserRoleMapping.findOne({
-      userId: user.id,
+      userId: user.id
     });
     if (userRolesExists) {
       // update roles for userId
@@ -57,14 +52,14 @@ const assignRoles = async (req, res, next) => {
         { userId: user.id },
         {
           userId: user.id,
-          roles: roles,
+          roles: roles
         }
       );
     } else {
       // if roles does not exist for a user, add roles defined
       const userRoleMappingObj = new UserRoleMapping({
         roles: roles,
-        userId: user.id,
+        userId: user.id
       });
       await userRoleMappingObj.save();
     }
@@ -83,9 +78,7 @@ const viewRoles = async (req, res, next) => {
       throw new AppError(400, `User ${email} does not exist`);
     }
     const userRoles = await UserRoleMapping.findOne({ userId: user.id });
-    return res
-      .status(200)
-      .json({ email: user.email, roles: userRoles?.roles ?? null });
+    return res.status(200).json({ email: user.email, roles: userRoles?.roles ?? null });
   } catch (error) {
     next(error);
   }
@@ -94,5 +87,5 @@ const viewRoles = async (req, res, next) => {
 module.exports = {
   createRole,
   assignRoles,
-  viewRoles,
+  viewRoles
 };

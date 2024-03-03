@@ -1,17 +1,16 @@
 const express = require("express");
-const { createOrder } = require("../controllers/Order.controller");
-const {
-  protectRouteMiddleware,
-} = require("../common/middlewares/protectRouteMiddleware");
 
-const router = express.Router();
+const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
+const { createOrder } = require("../controllers/Order.controller");
+
+const orderRoutes = express.Router();
 
 const initRoutes = () => {
   /**
    * create an order
    */
-  router.post("/", protectRouteMiddleware, createOrder);
+  orderRoutes.post("/", protectRoute, createOrder);
 };
 initRoutes();
 
-module.exports = router;
+module.exports = orderRoutes;

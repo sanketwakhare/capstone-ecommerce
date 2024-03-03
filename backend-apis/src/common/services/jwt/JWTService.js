@@ -5,7 +5,7 @@ const createToken = (payload) => {
   const token = jwt.sign(payload, JWT_SECRET_KEY, {
     algorithm: "HS256",
     expiresIn: "30m",
-    allowInsecureKeySizes: false,
+    allowInsecureKeySizes: false
   });
   return token;
 };
@@ -18,5 +18,5 @@ const verifyToken = (token) => {
 
 module.exports = {
   createToken,
-  verifyToken,
+  verifyToken
 };

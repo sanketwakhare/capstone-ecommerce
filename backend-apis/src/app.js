@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
-const { connectToMongoDb } = require("./mongoose-connector");
+
 const { initServer } = require("./express-server");
+const { connectToMongoDb } = require("./mongoose-connector");
 
 const initialize = async () => {
   try {

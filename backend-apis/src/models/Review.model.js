@@ -1,48 +1,51 @@
 const mongoose = require("mongoose");
+
+const { Collections } = require("../common/constants/Collections");
+const { Models } = require("../common/constants/Models");
 const { Schema } = mongoose;
 
 const reviewSchemaType = {
   title: {
     type: String,
-    required: true,
+    required: true
   },
   comment: {
     type: String,
-    required: true,
+    required: true
   },
   rating: {
     type: Number,
     required: true,
     min: 1,
-    max: 5,
+    max: 5
   },
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "Product",
+    ref: Models.Product
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: Models.User,
     validate: {
       validator: async function (userId) {
         const existingReview = await mongoose.models.Review.findOne({
           userId,
-          productId: this.productId,
+          productId: this.productId
         });
         return !existingReview;
       },
-      message: "You can only review a product once.",
-    },
+      message: "You can only review a product once."
+    }
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
-  },
+    default: Date.now()
+  }
 };
 
 const reviewSchema = new Schema(reviewSchemaType);
-const Review = mongoose.model("Review", reviewSchema, "reviews");
+const Review = mongoose.model(Models.Review, reviewSchema, Collections.Review);
 
 module.exports = Review;

@@ -1,61 +1,45 @@
 const express = require("express");
+
+const { RoleType } = require("../common/constants/RoleType");
+const { authorization } = require("../common/middlewares/AuthorizationMiddleware");
+const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
 const {
   createProduct,
   getProductById,
   getAllProducts,
   updateProduct,
   deleteProduct,
-  searchProducts,
+  searchProducts
 } = require("../controllers/Product.controller");
-const { authorization } = require("../common/middlewares/authorizeMiddlewares");
-const {
-  protectRouteMiddleware,
-} = require("../common/middlewares/protectRouteMiddleware");
-const { RoleType } = require("../common/constants/RoleType");
 
-const router = express.Router();
+const productRoutes = express.Router();
 
 const initRoutes = () => {
   /**
    * search products
    */
-  router.get("/search", searchProducts);
+  productRoutes.get("/search", searchProducts);
   /**
    * create a new product
    */
-  router.post(
-    "/",
-    protectRouteMiddleware,
-    authorization([RoleType.ADMIN, RoleType.SELLER]),
-    createProduct
-  );
+  productRoutes.post("/", protectRoute, authorization([RoleType.ADMIN, RoleType.SELLER]), createProduct);
   /**
    * get product by id
    */
-  router.get("/:id", getProductById);
+  productRoutes.get("/:id", getProductById);
   /**
    * get all products
    */
-  router.get("/", getAllProducts);
+  productRoutes.get("/", getAllProducts);
   /**
    * update product
    */
-  router.put(
-    "/:id",
-    protectRouteMiddleware,
-    authorization([RoleType.ADMIN, RoleType.SELLER]),
-    updateProduct
-  );
+  productRoutes.put("/:id", protectRoute, authorization([RoleType.ADMIN, RoleType.SELLER]), updateProduct);
   /**
    * delete product
    */
-  router.delete(
-    "/:id",
-    protectRouteMiddleware,
-    authorization([RoleType.ADMIN]),
-    deleteProduct
-  );
+  productRoutes.delete("/:id", protectRoute, authorization([RoleType.ADMIN]), deleteProduct);
 };
 initRoutes();
 
-module.exports = router;
+module.exports = productRoutes;

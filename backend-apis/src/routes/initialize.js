@@ -1,10 +1,10 @@
-const userRoutes = require("./User.routes");
-const productRoutes = require("./Product.routes");
 const authRoutes = require("./Auth.routes");
-const roleRoutes = require("./Role.routes");
 const orderRoutes = require("./Order.routes");
 const paymentRoutes = require("./Payment.routes");
+const productRoutes = require("./Product.routes");
 const reviewRoutes = require("./Review.routes");
+const roleRoutes = require("./Role.routes");
+const userRoutes = require("./User.routes");
 
 // Middleware to map base url for routes
 const initializeRoutes = (app) => {

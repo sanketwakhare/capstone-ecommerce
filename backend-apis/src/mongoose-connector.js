@@ -6,7 +6,7 @@ async function connect() {
     const { DB_USER, DB_PASSWORD, DB_NAME } = process.env;
     const uri = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster-capstone-projec.m4tykul.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
     const clientOptions = {
-      serverApi: { version: "1", strict: true, deprecationErrors: true },
+      serverApi: { version: "1", strict: true, deprecationErrors: true }
     };
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
     await mongoose.connect(uri, clientOptions);
@@ -19,5 +19,5 @@ async function connect() {
 }
 
 module.exports = {
-  connectToMongoDb: connect,
+  connectToMongoDb: connect
 };

@@ -1,20 +1,12 @@
-const User = require("../models/User.model");
-const {
-  createToken,
-  verifyToken,
-} = require("../common/services/jwt/JWTService");
-const {
-  sendOtpViaEmail,
-} = require("../common/services/email/BrevoEmailSenderService");
-const { generateOTP } = require("../common/services/opt/OtpGeneratorService");
-const UserOtpMapping = require("../models/UserOtpMapping.model");
-const AppError = require("../common/errors/AppError");
 const { RoleType } = require("../common/constants/RoleType");
+const AppError = require("../common/errors/AppError");
+const { hashPassword, comparePasswords } = require("../common/services/bcrypt/BcryptService");
+const { sendOtpViaEmail } = require("../common/services/email/BrevoEmailSenderService");
+const { createToken, verifyToken } = require("../common/services/jwt/JWTService");
+const { generateOTP } = require("../common/services/opt/OtpGeneratorService");
+const User = require("../models/User.model");
+const UserOtpMapping = require("../models/UserOtpMapping.model");
 const UserRoleMapping = require("../models/UserRoleMapping.model");
-const {
-  hashPassword,
-  comparePasswords,
-} = require("../common/services/bcrypt/BcryptService");
 
 // signup
 const signup = async (req, res, next) => {
@@ -32,11 +24,11 @@ const signup = async (req, res, next) => {
 
     const newUser = await User.create({
       email: email,
-      password: hashedPassword,
+      password: hashedPassword
     });
     if (newUser) {
       res.status(200).send({
-        message: "User created successfully",
+        message: "User created successfully"
       });
     }
 
@@ -44,7 +36,7 @@ const signup = async (req, res, next) => {
     const roles = [RoleType.USER];
     const userRoleMappingObj = new UserRoleMapping({
       roles: roles,
-      userId: newUser.id,
+      userId: newUser.id
     });
     await userRoleMappingObj.save();
   } catch (error) {
@@ -73,15 +65,15 @@ const login = async (req, res, next) => {
     }
 
     const payload = {
-      email: email,
+      email: email
     };
     const token = createToken(payload);
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 30, // 30 mins
+      maxAge: 1000 * 60 * 30 // 30 mins
     });
     res.status(200).send({
-      message: "User logged in successfully",
+      message: "User logged in successfully"
     });
   } catch (error) {
     next(error);
@@ -95,7 +87,7 @@ const verify = (req, res, next) => {
     const decodedTokenData = verifyToken(token);
     res.status(200).send({
       message: "valid token",
-      data: decodedTokenData,
+      data: decodedTokenData
     });
   } catch (error) {
     next(error);
@@ -132,14 +124,14 @@ const forgotPassword = async (req, res, next) => {
 
     const UserOtpMappingObject = new UserOtpMapping({
       otp: otp,
-      userId: user.id,
+      userId: user.id
     });
     await UserOtpMappingObject.save({ userId: user.id, otp: otp });
 
     // send opt via email template
     const emailData = {
       otp: otp,
-      to: email,
+      to: email
     };
     await sendOtpViaEmail(emailData);
     res.status(200).send({ message: "Verification Email sent successfully" });
@@ -156,7 +148,7 @@ const resetPassword = async (req, res, next) => {
     const user = await User.findById(userId);
     if (!user) {
       // user not found
-      throw new AppError(404, `User ${email} not found`);
+      throw new AppError(404, `User ${user?.email} not found`);
     }
 
     // fetch otp from database
@@ -176,7 +168,7 @@ const resetPassword = async (req, res, next) => {
     if (dbOtp === otp) {
       // save user password
       const user = await User.findById(userId);
-      user.password = password;
+      user.password = await hashPassword(password);
       await user.save();
 
       // delete users otp entry from db
@@ -198,7 +190,7 @@ module.exports = {
   verify,
   logout,
   forgotPassword,
-  resetPassword,
+  resetPassword
 };
 
 // const sendEmailApi = async (req, res, next) => {

@@ -1,20 +1,15 @@
-const express = require("express");
-const {
-  validationErrorHandler,
-  internalServerErrorHandler,
-} = require("./common/middlewares/error-handlers");
-const { initializeRoutes } = require("./routes/initialize");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const express = require("express");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+
+const { validationErrorHandler, internalServerErrorHandler } = require("./common/middlewares/ErrorHandlerMiddleware");
+const { slowDownRateLimiter } = require("./common/services/rate-limiter/RateLimiterService");
+const { initializeRoutes } = require("./routes/initialize");
 
 const initServer = async () => {
   const app = express();
-
-  // use cors
-  app.use(cors());
-
-  // Middleware to parse json requests
-  app.use(express.json());
 
   // Middleware to log time and endpoint on every request
   app.use((req, res, next) => {
@@ -22,10 +17,25 @@ const initServer = async () => {
     next();
   });
 
+  // using helmet to add security-related headers
+  app.use(helmet());
+
+  // enables cross-origin resource sharing
+  app.use(cors());
+
+  // rate limiter to protect against brute force or DDoS attacks
+  app.use(slowDownRateLimiter);
+
+  // Middleware to parse json requests
+  app.use(express.json());
+
   // to get the cookie in req.cookies
   app.use(cookieParser());
 
-  // initialize routes
+  // mongo sanitize to protect against MongoDB query injection.
+  app.use(mongoSanitize());
+
+  // initialize application-specific routes
   initializeRoutes(app);
 
   // Middleware to handle validation errors
@@ -42,5 +52,5 @@ const initServer = async () => {
 };
 
 module.exports = {
-  initServer,
+  initServer
 };

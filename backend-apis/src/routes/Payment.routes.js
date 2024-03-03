@@ -1,26 +1,27 @@
 const express = require("express");
+
 const {
   createTxnPaymentOrder,
   verifyPaymentSignature,
-  capturePaymentTransaction,
+  capturePaymentTransaction
 } = require("../controllers/Payment.controller");
 
-const router = express.Router();
+const paymentRoutes = express.Router();
 
 const initRoutes = () => {
   /**
    * create a payment transaction order
    */
-  router.post("/", createTxnPaymentOrder);
+  paymentRoutes.post("/", createTxnPaymentOrder);
   /**
    * verify payment signature
    */
-  router.post("/verify-payment-signature", verifyPaymentSignature);
+  paymentRoutes.post("/verify-payment-signature", verifyPaymentSignature);
   /**
    * capture payment transaction
    */
-  router.post("/capture-payment-transaction", capturePaymentTransaction);
+  paymentRoutes.post("/capture-payment-transaction", capturePaymentTransaction);
 };
 initRoutes();
 
-module.exports = router;
+module.exports = paymentRoutes;

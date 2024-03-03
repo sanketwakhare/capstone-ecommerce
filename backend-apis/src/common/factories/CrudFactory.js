@@ -1,5 +1,6 @@
-const ModelMappings = require("../constants/ModelMappings");
 const mongoose = require("mongoose");
+
+const { Models } = require("../constants/Models");
 const AppError = require("../errors/AppError");
 
 const create = (Model) => async (req, res, next) => {
@@ -7,10 +8,10 @@ const create = (Model) => async (req, res, next) => {
     const model = new Model(req.body);
     const createdModel = await model.save();
     res.status(201).json({
-      message: `${ModelMappings[Model.modelName]} created successfully`,
+      message: `${Models[Model.modelName]} created successfully`,
       data: {
-        id: createdModel.id,
-      },
+        id: createdModel.id
+      }
     });
   } catch (err) {
     next(err);
@@ -22,7 +23,7 @@ const getAll = (Model) => async (req, res, next) => {
     res.setHeader("Content-Type", "application/json");
     const models = await Model.find();
     res.status(200).send({
-      data: models,
+      data: models
     });
   } catch (error) {
     next(error);
@@ -34,20 +35,14 @@ const getById = (Model) => async (req, res, next) => {
     res.setHeader("Content-Type", "application/json");
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new AppError(
-        400,
-        `Invalid ${ModelMappings[Model.modelName]} id ${id}`
-      );
+      throw new AppError(400, `Invalid ${Models[Model.modelName]} id ${id}`);
     }
     const model = await Model.findById(id);
     if (!model) {
-      throw new AppError(
-        404,
-        `${ModelMappings[Model.modelName]} with id ${id} not found`
-      );
+      throw new AppError(404, `${Models[Model.modelName]} with id ${id} not found`);
     }
     res.status(200).send({
-      data: model,
+      data: model
     });
   } catch (error) {
     next(error);
@@ -60,21 +55,15 @@ const update = (Model) => async (req, res, next) => {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new AppError(
-        400,
-        `Invalid ${ModelMappings[Model.modelName]} id ${id}`
-      );
+      throw new AppError(400, `Invalid ${Models[Model.modelName]} id ${id}`);
     }
     const model = await Model.findByIdAndUpdate(id, req.body);
     if (!model) {
-      throw new AppError(
-        404,
-        `${ModelMappings[Model.modelName]} with id ${id} not found`
-      );
+      throw new AppError(404, `${Models[Model.modelName]} with id ${id} not found`);
     }
     res.status(200).send({
-      message: `${ModelMappings[Model.modelName]} updated successfully`,
-      data: await Model.findById(id),
+      message: `${Models[Model.modelName]} updated successfully`,
+      data: await Model.findById(id)
     });
   } catch (error) {
     next(error);
@@ -87,20 +76,14 @@ const deleteModel = (Model) => async (req, res, next) => {
 
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new AppError(
-        400,
-        `Invalid ${ModelMappings[Model.modelName]} id ${id}`
-      );
+      throw new AppError(400, `Invalid ${Models[Model.modelName]} id ${id}`);
     }
     const model = await Model.findByIdAndDelete(id);
     if (!model) {
-      throw new AppError(
-        404,
-        `${ModelMappings[Model.modelName]} with id ${id} not found`
-      );
+      throw new AppError(404, `${Models[Model.modelName]} with id ${id} not found`);
     }
     res.status(200).send({
-      message: `${ModelMappings[Model.modelName]} deleted successfully`,
+      message: `${Models[Model.modelName]} deleted successfully`
     });
   } catch (error) {
     next(error);
@@ -108,6 +91,7 @@ const deleteModel = (Model) => async (req, res, next) => {
 };
 
 // TODO: Implement check middleware
+// eslint-disable-next-line no-unused-vars
 const check = (req, res, next) => {
   console.log("check");
   next();

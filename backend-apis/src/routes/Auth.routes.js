@@ -1,44 +1,37 @@
 const express = require("express");
-const {
-  signup,
-  login,
-  verify,
-  logout,
-  forgotPassword,
-  resetPassword,
-} = require("../controllers/Auth.controller");
-const {
-  protectRouteMiddleware,
-} = require("../common/middlewares/protectRouteMiddleware");
 
-const router = express.Router();
+const { fieldValidationMiddleware } = require("../common/middlewares/FieldValidationMiddleware");
+const { emailValidator, passwordValidator } = require("../common/services/validators/FieldValidatorService");
+const { signup, login, verify, logout, forgotPassword, resetPassword } = require("../controllers/Auth.controller");
+
+const authRoutes = express.Router();
 
 const initRoutes = () => {
   /**
    * signup
    */
-  router.post("/signup", signup);
+  authRoutes.post("/signup", [emailValidator(), passwordValidator()], fieldValidationMiddleware, signup);
   /**
    * login
    */
-  router.post("/login", login);
+  authRoutes.post("/login", [emailValidator()], fieldValidationMiddleware, login);
   /**
    * verify token
    */
-  router.get("/verifyToken", verify);
+  authRoutes.get("/verifyToken", verify);
   /**
    * logout
    */
-  router.get("/logout", logout);
+  authRoutes.get("/logout", logout);
   /**
    * forgot password
    */
-  router.patch("/forgotPassword", forgotPassword);
+  authRoutes.patch("/forgotPassword", [emailValidator()], fieldValidationMiddleware, forgotPassword);
   /**
    * reset password
    */
-  router.patch("/resetPassword/:userId", resetPassword);
+  authRoutes.patch("/resetPassword/:userId", [passwordValidator()], fieldValidationMiddleware, resetPassword);
 };
 initRoutes();
 
-module.exports = router;
+module.exports = authRoutes;
