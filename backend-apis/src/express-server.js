@@ -5,6 +5,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 
 const { validationErrorHandler, internalServerErrorHandler } = require("./common/middlewares/ErrorHandlerMiddleware");
+const { requestLoggerMiddleware } = require("./common/middlewares/RequestLoggerMiddleware");
+const { responseTimeLoggerMiddleware } = require("./common/middlewares/ResponseTimeLoggerMiddleware");
 const { slowDownRateLimiter } = require("./common/services/rate-limiter/RateLimiterService");
 const { initializeRoutes } = require("./routes/initialize");
 
@@ -12,10 +14,10 @@ const initServer = async () => {
   const app = express();
 
   // Middleware to log time and endpoint on every request
-  app.use((req, res, next) => {
-    console.log(new Date().toISOString(), req.method, req.url);
-    next();
-  });
+  app.use(requestLoggerMiddleware);
+
+  // Response time logger middleware
+  app.use(responseTimeLoggerMiddleware);
 
   // using helmet to add security-related headers
   app.use(helmet());

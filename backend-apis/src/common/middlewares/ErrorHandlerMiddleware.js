@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
 
+const { ErrorMessages } = require("../constants/ErrorMessages");
 const AppError = require("../errors/AppError");
 const ValidationError = require("../errors/ValidationError");
 
 // Custom error handling middleware
 const internalServerErrorHandler = (err, req, res, next) => {
   try {
-    const appError = new AppError(500, err.message);
+    console.error(ErrorMessages.INTERNAL_SERVER_ERROR, err.stack);
+    const appError = new AppError(500, ErrorMessages.INTERNAL_SERVER_ERROR);
     return res.status(500).json(appError).send();
   } catch (error) {
     next(error);

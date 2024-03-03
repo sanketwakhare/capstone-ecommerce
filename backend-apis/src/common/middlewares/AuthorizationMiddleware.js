@@ -1,5 +1,6 @@
 const User = require("../../models/User.model");
 const UserRoleMapping = require("../../models/UserRoleMapping.model");
+const { ErrorMessages } = require("../constants/ErrorMessages");
 const AppError = require("../errors/AppError");
 
 const authorization = (allowedRoles) => {
@@ -13,10 +14,10 @@ const authorization = (allowedRoles) => {
         const roles = userRoles?.roles || [];
         const isAuthorized = (allowedRoles || []).some((role) => roles.includes(role));
         if (!isAuthorized) {
-          throw new AppError(401, "Unauthorized Access");
+          throw new AppError(401, ErrorMessages.UNAUTHORIZED_ACCESS);
         }
       } else {
-        throw new AppError(401, "Unauthorized Access");
+        throw new AppError(401, ErrorMessages.UNAUTHORIZED_ACCESS);
       }
       next();
     } catch (error) {
