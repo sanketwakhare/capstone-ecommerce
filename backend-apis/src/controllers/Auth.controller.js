@@ -11,6 +11,10 @@ const UserOtpMapping = require("../models/UserOtpMapping.model");
 const AppError = require("../common/errors/AppError");
 const { RoleType } = require("../common/constants/RoleType");
 const UserRoleMapping = require("../models/UserRoleMapping.model");
+const {
+  hashPassword,
+  comparePasswords,
+} = require("../common/services/bcrypt/BcryptService");
 
 // signup
 const signup = async (req, res, next) => {
@@ -23,7 +27,13 @@ const signup = async (req, res, next) => {
       throw new AppError(400, `User ${email} already exists`);
     }
 
-    const newUser = await User.create({ email: email, password: password });
+    // hash password
+    const hashedPassword = await hashPassword(password);
+
+    const newUser = await User.create({
+      email: email,
+      password: hashedPassword,
+    });
     if (newUser) {
       res.status(200).send({
         message: "User created successfully",
@@ -53,8 +63,11 @@ const login = async (req, res, next) => {
       throw new AppError(404, `User ${email} not found`);
     }
 
+    // compare password with hashed password
+    const isPasswordMatch = await comparePasswords(password, user.password);
+
     // check if password is correct
-    if (password !== user.password) {
+    if (!isPasswordMatch) {
       // invalid credentials
       throw new AppError(400, "Invalid credentials");
     }
