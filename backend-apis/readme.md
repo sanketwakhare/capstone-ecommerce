@@ -2,9 +2,14 @@
 
 ### Topic:
 
-1. design review model
-2. provide review rating for a product
-3. calculate average review ratings of a product
+1. Security
+   1. CORS headers
+   2. password encryption
+   3. no sql injection
+   4. rate limiting
+2. integrating frontend with backend
+3. implementing protected routes
+4. resolve CORS issues
 
 ---
 
