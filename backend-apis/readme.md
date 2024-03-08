@@ -2,14 +2,9 @@
 
 ### Topic:
 
-1. Security
-   1. CORS headers
-   2. password encryption
-   3. no sql injection
-   4. rate limiting
-2. integrating frontend with backend
-3. implementing protected routes
-4. resolve CORS issues
+1. Sign-up and login integration
+2. Websocket
+3. Chat application example using websocket
 
 ---
 
@@ -27,6 +22,8 @@ BREVO_PASSWORD = <brevo-password>
 RAZORPAY_PUBLIC_KEY = <razorpay-public-key>
 RAZORPAY_PRIVATE_KEY = <razorpay-private-key>
 RAZORPAY_WEBHOOK_SECRET = <razorpay-webhook-secret-key>
+CRYPTO_SECRET_KEY = <crt-secret-key>
+CRYPTO_SECRET_IV = <crt-secret-iv>
 ```
 
 ---

@@ -72,6 +72,7 @@ const login = async (req, res, next) => {
       httpOnly: true,
       maxAge: 1000 * 60 * 30 // 30 mins
     });
+    // res.setHeader("x-access-token", token);
     res.status(200).send({
       message: "User logged in successfully"
     });
@@ -83,7 +84,10 @@ const login = async (req, res, next) => {
 // verify jwt token
 const verify = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
+    let { token } = req.cookies;
+    // if (!token) {
+    //   token = req.headers["x-access-token"];
+    // }
     const decodedTokenData = await verifyToken(token);
     res.status(200).send({
       message: "valid token",

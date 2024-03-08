@@ -14,7 +14,7 @@ const slowDownRateLimiter = slowDown({
   /**
    * Number of requests allowed before introducing delays.
    */
-  delayAfter: 15,
+  delayAfter: 50,
 
   /**
    * Function that calculates the delay introduced after reaching the specified number of consecutive requests.
