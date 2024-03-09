@@ -1,5 +1,6 @@
 const express = require("express");
 
+const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
 const {
   createTxnPaymentOrder,
   verifyPaymentSignature,
@@ -12,15 +13,15 @@ const initRoutes = () => {
   /**
    * create a payment transaction order
    */
-  paymentRoutes.post("/", createTxnPaymentOrder);
+  paymentRoutes.post("/", protectRoute, createTxnPaymentOrder);
   /**
    * verify payment signature
    */
-  paymentRoutes.post("/verify-payment-signature", verifyPaymentSignature);
+  paymentRoutes.post("/verify-payment-signature", protectRoute, verifyPaymentSignature);
   /**
    * capture payment transaction
    */
-  paymentRoutes.post("/capture-payment-transaction", capturePaymentTransaction);
+  paymentRoutes.post("/capture-payment-transaction", protectRoute, capturePaymentTransaction);
 };
 initRoutes();
 

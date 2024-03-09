@@ -19,7 +19,7 @@ const initRoutes = () => {
   /**
    * view roles for a user
    */
-  roleRoutes.get("/viewRoles/:email", viewRoles);
+  roleRoutes.get("/viewRoles/:email", protectRoute, viewRoles);
 };
 initRoutes();
 

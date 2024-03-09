@@ -1,8 +1,17 @@
 const express = require("express");
 
 const { fieldValidationMiddleware } = require("../common/middlewares/FieldValidationMiddleware");
+const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
 const { emailValidator, passwordValidator } = require("../common/services/validators/FieldValidatorService");
-const { signup, login, verify, logout, forgotPassword, resetPassword } = require("../controllers/Auth.controller");
+const {
+  signup,
+  login,
+  verify,
+  logout,
+  forgotPassword,
+  resetPassword,
+  validateOtp
+} = require("../controllers/Auth.controller");
 
 const authRoutes = express.Router();
 
@@ -22,11 +31,16 @@ const initRoutes = () => {
   /**
    * logout
    */
-  authRoutes.get("/logout", logout);
+  // if user exist in data base, then only issue a token
+  authRoutes.get("/logout", protectRoute, logout);
   /**
    * forgot password
    */
-  authRoutes.patch("/forgotPassword", [emailValidator()], fieldValidationMiddleware, forgotPassword);
+  authRoutes.post("/forgotPassword", [emailValidator()], fieldValidationMiddleware, forgotPassword);
+  /**
+   * validate OTP
+   */
+  authRoutes.post("/validateOtp/:userId", validateOtp);
   /**
    * reset password
    */

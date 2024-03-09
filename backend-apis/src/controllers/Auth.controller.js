@@ -68,13 +68,14 @@ const login = async (req, res, next) => {
       email: email
     };
     const token = await createToken(payload);
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 30 // 30 mins
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   maxAge: 1000 * 60 * 30 // 30 mins
+    // });
     // res.setHeader("x-access-token", token);
     res.status(200).send({
-      message: "User logged in successfully"
+      message: "User logged in successfully",
+      token
     });
   } catch (error) {
     next(error);
@@ -138,17 +139,18 @@ const forgotPassword = async (req, res, next) => {
       to: email
     };
     await sendOtpViaEmail(emailData);
-    res.status(200).send({ message: "Verification Email sent successfully" });
+    res.status(200).send({ message: "Verification Email sent successfully", userId: user.id });
   } catch (error) {
     next(error);
   }
 };
 
-// reset password
-const resetPassword = async (req, res, next) => {
+// validate OTP
+const validateOtp = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { password, otp } = req.body;
+    let { otp } = req.body;
+    otp = Number(otp);
     const user = await User.findById(userId);
     if (!user) {
       // user not found
@@ -166,22 +168,40 @@ const resetPassword = async (req, res, next) => {
     const dbOtp = dbUserOtpObj.otp;
 
     if (dbUserOtpObj?.expiresAt < Date.now()) {
-      throw new AppError(400, "OTP is expired");
+      // delete users otp entry from db
+      await UserOtpMapping.findOneAndDelete({ userId: userId });
+      throw new AppError(400, "OTP is expired. Please re-generate new OTP");
     }
 
     if (dbOtp === otp) {
-      // save user password
-      const user = await User.findById(userId);
-      user.password = await hashPassword(password);
-      await user.save();
-
-      // delete users otp entry from db
-      await UserOtpMapping.findOneAndDelete({ userId: userId });
-
-      return res.status(200).send({ message: "Password reset successfully" });
+      return res.status(200).send({ message: "OTP verified" });
     } else {
       throw new AppError(400, "Invalid OTP");
     }
+    // save user with updated password if otp is matched
+  } catch (error) {
+    next(error);
+  }
+};
+
+// reset password
+const resetPassword = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { password } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      // user not found
+      throw new AppError(404, `User ${user?.email} not found`);
+    }
+    // save user password
+    user.password = await hashPassword(password);
+    await user.save();
+
+    // delete users otp entry from db
+    await UserOtpMapping.findOneAndDelete({ userId: userId });
+
+    return res.status(200).send({ message: "Password reset successfully" });
     // save user with updated password if otp is matched
   } catch (error) {
     next(error);
@@ -194,6 +214,7 @@ module.exports = {
   verify,
   logout,
   forgotPassword,
+  validateOtp,
   resetPassword
 };
 

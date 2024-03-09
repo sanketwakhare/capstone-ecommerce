@@ -106,9 +106,62 @@ CRYPTO_SECRET_IV = <crt-secret-iv>
 
   **PATCH** - `/api/auth/forgotPassword` - forgot password
 
+  Request
+
+  ```
+  {
+    "email": "sanketwakhare@gmail.com"
+  }
+  ```
+
+  Response:
+
+  ```
+  {
+    "message": "Verification Email sent successfully",
+    "userId": "65e40eaab98773dd6cd3c70d"
+  }
+  ```
+
+- Validate OTP
+
+  **PATCH** - `/api/auth/validateOtp/:userId` - validate OTP
+
+  Request
+
+  ```
+  {
+    "otp": 176388
+  }
+  ```
+
+  Response:
+
+  ```
+  {
+    "message": "OTP verified"
+  }
+  ```
+
 - Reset password
 
   **PATCH** - `/api/auth/resetPassword/:userId` - reset password
+
+  Request
+
+  ```
+  {
+    "password": "Abcd@1234"
+  }
+  ```
+
+  Response:
+
+  ```
+  {
+    "message": "Password reset successfully"
+  }
+  ```
 
   ***
 

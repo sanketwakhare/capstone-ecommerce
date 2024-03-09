@@ -15,7 +15,7 @@ const initRoutes = () => {
   /**
    * get average rating of a product
    */
-  reviewRoutes.get("/average-rating/:productId", getAverageRatingOfProduct);
+  reviewRoutes.get("/average-rating/:productId", protectRoute, getAverageRatingOfProduct);
 };
 initRoutes();
 

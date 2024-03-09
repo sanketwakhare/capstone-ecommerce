@@ -15,7 +15,7 @@ const initRoutes = () => {
   /**
    * get user details by id
    */
-  userRoutes.get("/:id", getUserById);
+  userRoutes.get("/:id", protectRoute, getUserById);
   /**
    * get all users details
    */
@@ -23,7 +23,7 @@ const initRoutes = () => {
   /**
    * update user details by id
    */
-  userRoutes.put("/:id", updateUser);
+  userRoutes.put("/:id", protectRoute, updateUser);
   /**
    * delete user by id
    */

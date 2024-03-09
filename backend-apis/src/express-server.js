@@ -24,9 +24,7 @@ const initServer = async () => {
 
   // enables cross-origin resource sharing
   // app.use(cors());
-  app.use(
-    cors({ credentials: true, exposedHeaders: ["x-access-token", "set-cookie"], origin: "http://localhost:3001" })
-  );
+  app.use(cors({ exposedHeaders: ["Authorization"], origin: "http://localhost:3001" }));
 
   // rate limiter to protect against brute force or DDoS attacks
   app.use(slowDownRateLimiter);
