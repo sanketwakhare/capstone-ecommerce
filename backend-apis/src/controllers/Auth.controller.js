@@ -121,10 +121,13 @@ const forgotPassword = async (req, res, next) => {
     // generate random otp
     const otp = generateOTP();
 
+    // TODO: fix this
+
     // store OTP and expiry in database against userId
-    const otpExistsForUser = await UserOtpMapping.findOne({ userId: user.id });
+    const otpExistsForUser = await UserOtpMapping.find({ userId: user.id });
     if (otpExistsForUser) {
-      await otpExistsForUser.deleteOne({ userId: user.id });
+      // delete all existing otp for a current user form db
+      await UserOtpMapping.deleteMany({ userId: user.id });
     }
 
     const UserOtpMappingObject = new UserOtpMapping({
@@ -158,22 +161,27 @@ const validateOtp = async (req, res, next) => {
     }
 
     // fetch otp from database
-    const dbUserOtpObj = await UserOtpMapping.findOne({ userId: userId });
+    const dbUserOtpObj = await UserOtpMapping.findOne({
+      userId: userId,
+      expiresAt: { $gt: Date.now() }
+    }).sort({ createdAt: -1 });
 
     if (!dbUserOtpObj) {
-      throw new AppError(400, "OTP is not generated");
+      throw new AppError(400, "OTP is either expired or not generated. Please re-generate new OTP");
     }
 
     // verify the otp
     const dbOtp = dbUserOtpObj.otp;
 
     if (dbUserOtpObj?.expiresAt < Date.now()) {
-      // delete users otp entry from db
+      // delete otp entry from db
       await UserOtpMapping.findOneAndDelete({ userId: userId });
       throw new AppError(400, "OTP is expired. Please re-generate new OTP");
     }
 
     if (dbOtp === otp) {
+      // delete users otp entry from db
+      // await UserOtpMapping.findOneAndDelete({ userId: userId });
       return res.status(200).send({ message: "OTP verified" });
     } else {
       throw new AppError(400, "Invalid OTP");
