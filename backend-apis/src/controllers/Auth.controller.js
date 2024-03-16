@@ -121,11 +121,9 @@ const forgotPassword = async (req, res, next) => {
     // generate random otp
     const otp = generateOTP();
 
-    // TODO: fix this
-
     // store OTP and expiry in database against userId
     const otpExistsForUser = await UserOtpMapping.find({ userId: user.id });
-    if (otpExistsForUser) {
+    if (otpExistsForUser?.length > 0) {
       // delete all existing otp for a current user form db
       await UserOtpMapping.deleteMany({ userId: user.id });
     }
@@ -162,8 +160,7 @@ const validateOtp = async (req, res, next) => {
 
     // fetch otp from database
     const dbUserOtpObj = await UserOtpMapping.findOne({
-      userId: userId,
-      expiresAt: { $gt: Date.now() }
+      userId: userId
     }).sort({ createdAt: -1 });
 
     if (!dbUserOtpObj) {
