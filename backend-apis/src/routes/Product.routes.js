@@ -9,7 +9,8 @@ const {
   getAllProducts,
   updateProduct,
   deleteProduct,
-  searchProducts
+  searchProducts,
+  loadProducts
 } = require("../controllers/Product.controller");
 
 const productRoutes = express.Router();
@@ -23,6 +24,10 @@ const initRoutes = () => {
    * create a new product
    */
   productRoutes.post("/", protectRoute, authorization([RoleType.ADMIN, RoleType.SELLER]), createProduct);
+  /**
+   * create/load multiple products
+   */
+  productRoutes.post("/bulk-load", protectRoute, authorization([RoleType.ADMIN, RoleType.SELLER]), loadProducts);
   /**
    * get product by id
    */

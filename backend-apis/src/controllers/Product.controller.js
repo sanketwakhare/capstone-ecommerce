@@ -7,6 +7,13 @@ const getAllProducts = CrudFactory.getAll(Product);
 const updateProduct = CrudFactory.update(Product);
 const deleteProduct = CrudFactory.delete(Product);
 
+/**
+ * Searches for products in the database based on various criteria.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
 const searchProducts = async (req, res, next) => {
   try {
     res.setHeader("Content-Type", "application/json");
@@ -81,11 +88,36 @@ const searchProducts = async (req, res, next) => {
   }
 };
 
+/**
+ * Loads multiple products into the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
+const loadProducts = async (req, res, next) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    const { products } = req.body;
+    if (products.length === 0) {
+      return;
+    }
+    // insert multiple products into db
+    await Product.insertMany(products);
+    res.status(200).send({
+      message: "Products loaded successfully"
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createProduct,
   getProductById,
   updateProduct,
   deleteProduct,
   getAllProducts,
-  searchProducts
+  searchProducts,
+  loadProducts
 };
