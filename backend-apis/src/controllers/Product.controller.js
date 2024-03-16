@@ -50,7 +50,18 @@ const searchProducts = async (req, res, next) => {
     const filterParams = query.filter;
     if (filterParams) {
       const parsedJson = JSON.parse(filterParams);
-      const filterKeys = Object.keys(parsedJson);
+      let filterKeys = Object.keys(parsedJson);
+      filterKeys = filterKeys.filter((k) => k !== "freeTextPhrase");
+
+      // if freeTextPhrase is present
+      const freeTextPhrase = parsedJson.freeTextPhrase;
+      if (freeTextPhrase) {
+        const freeTextRegex = new RegExp(freeTextPhrase, "i");
+        searchPromise.find({
+          $or: [{ title: freeTextRegex }, { category: freeTextRegex }, { description: freeTextRegex }]
+        });
+      }
+
       filterKeys.forEach((key) => {
         searchPromise.where(key).equals(parsedJson[key]);
       });
