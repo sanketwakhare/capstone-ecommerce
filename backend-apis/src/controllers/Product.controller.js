@@ -37,8 +37,8 @@ const searchProducts = async (req, res, next) => {
     }
 
     // implement pagination
-    const page = parseInt(query.page) || 1;
-    const limit = parseInt(query.limit) || 10;
+    const page = !isNaN(query?.page) ? parseInt(query.page) : 1;
+    const limit = !isNaN(query?.limit) ? parseInt(query.limit) : 10;
     const offset = (page - 1) * limit;
     searchPromise.limit(limit).skip(offset);
 
