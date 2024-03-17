@@ -125,7 +125,7 @@ const forgotPassword = async (req, res, next) => {
     const otpExistsForUser = await UserOtpMapping.find({ userId: user.id });
     if (otpExistsForUser?.length > 0) {
       // delete all existing otp for a current user form db
-      await UserOtpMapping.deleteMany({ userId: user.id });
+      await UserOtpMapping.deleteOne({ userId: otpExistsForUser[0].userId });
     }
 
     const UserOtpMappingObject = new UserOtpMapping({
