@@ -71,8 +71,10 @@ const searchProducts = async (req, res, next) => {
       return;
     }
 
+    const totalCount = await Product.countDocuments();
     res.status(200).send({
-      data: products
+      data: products,
+      totalCount
     });
   } catch (error) {
     next(error);
