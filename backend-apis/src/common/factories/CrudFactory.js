@@ -90,11 +90,23 @@ const deleteModel = (Model) => async (req, res, next) => {
   }
 };
 
-// TODO: Implement check middleware
-// eslint-disable-next-line no-unused-vars
-const check = (req, res, next) => {
-  console.log("check");
-  next();
+const getTotalCount = (Model) => async (req, res, next) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    const count = await Model.countDocuments();
+    res.status(200).send({
+      totalCount: count
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = { create, getAll, getById, update, delete: deleteModel };
+module.exports = {
+  create,
+  getAll,
+  getById,
+  update,
+  delete: deleteModel,
+  getTotalCount
+};
