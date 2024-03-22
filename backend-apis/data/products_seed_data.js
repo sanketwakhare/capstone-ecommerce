@@ -318,7 +318,7 @@ const productsSeedData = [
     },
     {
       title: "Apple iPhone 12 Pro",
-      price: 1099,
+      price: 95000,
       description:
         "The iPhone 12 Pro features a stunning Super Retina XDR display, A14 Bionic chip, and pro-level camera system for capturing amazing photos and videos.",
       category: "electronics",
@@ -327,7 +327,7 @@ const productsSeedData = [
     },
     {
       title: "SanDisk Ultra Dual Drive USB Type-C",
-      price: 29,
+      price: 1000,
       description:
         "Easily transfer files between USB Type-C smartphones, tablets, laptops, and computers with this versatile USB flash drive. Offers high-speed USB 3.1 performance.",
       category: "electronics",
@@ -336,7 +336,7 @@ const productsSeedData = [
     },
     {
       title: "JBL Flip 5 Waterproof Portable Bluetooth Speaker",
-      price: 99,
+      price: 7999,
       description:
         "Take your music wherever you go with the JBL Flip 5 portable Bluetooth speaker. Waterproof and durable, it delivers powerful sound and bass for up to 12 hours.",
       category: "electronics",
@@ -345,7 +345,7 @@ const productsSeedData = [
     },
     {
       title: "Bose QuietComfort 35 II Wireless Headphones",
-      price: 299,
+      price: 14599,
       description:
         "Experience world-class noise cancellation and superior sound quality with the Bose QuietComfort 35 II wireless headphones. Perfect for work or travel.",
       category: "electronics",
