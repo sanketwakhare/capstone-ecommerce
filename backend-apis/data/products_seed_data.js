@@ -173,7 +173,186 @@ const productsSeedData = [
       "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
     category: "jewelery",
     image: "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg"
-  }
+  },
+  {
+    title: "Apple AirPods Pro",
+    price: 24900,
+    description:
+      "Active noise cancellation for immersive sound. Transparency mode for hearing and connecting with the world around you. Three sizes of soft, tapered silicone tips for a customizable fit. Sweat and water resistant. Adaptive EQ automatically tunes music to the shape of your ear. Easy setup for all your Apple devices. Quick access to Siri by saying “Hey Siri”.",
+    category: "electronics",
+    image:
+      "https://images.unsplash.com/photo-1588156979435-379b9d365296?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Amazon Echo (4th Gen)",
+    price: 9999,
+    description:
+      "Meet Echo - Echo (4th generation) has new premium speakers powered by Dolby and a sleek design. Echo connects to Alexa to play music, make calls, set alarms and timers, ask questions, control smart home devices, and more.",
+    category: "electronics",
+    image:
+      "https://images.unsplash.com/photo-1621274147744-cfb5694bb233?q=80&w=2060&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Samsung Galaxy S20 Ultra",
+    price: 119900,
+    description:
+      "108MP main camera, 48MP telephoto camera, 12MP ultra-wide camera and VGA Depth Camera. 5,000mAh (typical) battery power for multiple days of uninterrupted use. HyperFast Processor: Exynos 990 with LTE connectivity and Octa Core. 120Hz Dynamic AMOLED 2X Display for smooth scrolling and viewing.",
+    category: "electronics",
+    image:
+      "https://images.unsplash.com/photo-1597762470488-3877b1f538c6?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Casual Slim Fit Shirt",
+    price: 2999,
+    description:
+      "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Hooded Sweatshirt",
+    price: 3999,
+    description:
+      "Comfortable and stylish hooded sweatshirt for everyday wear. Features a drawstring hood and kangaroo pocket.",
+    category: "men's clothing",
+    image:
+      "https://plus.unsplash.com/premium_photo-1663036780512-f9342add17fd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Denim Jacket",
+    price: 5499,
+    description:
+      "Classic denim jacket design with button-up front, chest pockets, and side pockets. Perfect for layering over any outfit.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1531945086322-64e2ffae14a6?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Leather Boots",
+    price: 7999,
+    description: "Stylish and durable leather boots for any occasion. Features lace-up closure and comfortable sole.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1638609348722-aa2a3a67db26?q=80&w=1945&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Cargo Shorts",
+    price: 2499,
+    description:
+      "Functional cargo shorts with multiple pockets for storage. Made from durable cotton fabric for outdoor activities.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Plaid Flannel Shirt",
+    price: 3499,
+    description:
+      "Classic plaid flannel shirt for a timeless look. Made from soft and warm fabric for comfort in cooler weather.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1676057722037-90055ca20f2b?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Slim Fit Chino Pants",
+    price: 4499,
+    description:
+      "Modern slim fit chino pants for a polished look. Features a flat front, side pockets, and back welt pockets.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Crewneck Sweater",
+    price: 2999,
+    description: "Versatile crewneck sweater made from soft knit fabric. Perfect for layering or wearing on its own.",
+    category: "men's clothing",
+    image:
+      "https://plus.unsplash.com/premium_photo-1669850858871-ad39a6dce159?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Q3Jld25lY2slMjBTd2VhdGVyfGVufDB8fDB8fHww"
+  },
+  {
+    title: "Men's Classic Fit Dress Shirt",
+    price: 5999,
+    description:
+      "Timeless dress shirt with a classic fit. Made from wrinkle-resistant fabric for easy care and long-lasting wear.",
+    category: "men's clothing",
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Q2xhc3NpYyUyMEZpdCUyMERyZXNzJTIwU2hpcnR8ZW58MHx8MHx8fDA%3D"
+  },
+  {
+    title: "Diamond Stud Earrings",
+    price: 8999,
+    description:
+      "Classic diamond stud earrings featuring round-cut diamonds in a four-prong setting. Crafted in 14k white gold.",
+    category: "jewelery",
+    image:
+      "https://images.unsplash.com/photo-1475179593777-bd12fd56b85d?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Men's Stainless Steel Bracelet",
+    price: 3499,
+    description: "Stylish stainless steel bracelet for men, featuring a sleek design with brushed and polished links.",
+    category: "jewelery",
+    image:
+      "https://images.unsplash.com/photo-1628785517892-dbcd2f2719ed?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    title: "Sapphire and Diamond Ring",
+    price: 15999,
+    description:
+      "Elegant sapphire and diamond ring crafted in 18k white gold. Features a vibrant oval-cut sapphire surrounded by a halo of sparkling diamonds.",
+    category: "jewelery",
+    image:
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  [
+    {
+      title: "Apple MacBook Pro 13-inch",
+      price: 125990,
+      description:
+        "Powerful and portable, the MacBook Pro 13-inch features a stunning Retina display, fast processors, and all-day battery life.",
+      category: "electronics",
+      image:
+        "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?q=80&w=2107&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      title: "Apple iPhone 12 Pro",
+      price: 1099,
+      description:
+        "The iPhone 12 Pro features a stunning Super Retina XDR display, A14 Bionic chip, and pro-level camera system for capturing amazing photos and videos.",
+      category: "electronics",
+      image:
+        "https://images.unsplash.com/photo-1509741102003-ca64bfe5f069?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fEFwcGxlJTIwaVBob25lJTIwMTIlMjBQcm98ZW58MHx8MHx8fDA%3D"
+    },
+    {
+      title: "SanDisk Ultra Dual Drive USB Type-C",
+      price: 29,
+      description:
+        "Easily transfer files between USB Type-C smartphones, tablets, laptops, and computers with this versatile USB flash drive. Offers high-speed USB 3.1 performance.",
+      category: "electronics",
+      image:
+        "https://images.unsplash.com/photo-1625886390251-01af1ea39853?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      title: "JBL Flip 5 Waterproof Portable Bluetooth Speaker",
+      price: 99,
+      description:
+        "Take your music wherever you go with the JBL Flip 5 portable Bluetooth speaker. Waterproof and durable, it delivers powerful sound and bass for up to 12 hours.",
+      category: "electronics",
+      image:
+        "https://images.unsplash.com/photo-1645537335722-01e6205ca0a4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      title: "Bose QuietComfort 35 II Wireless Headphones",
+      price: 299,
+      description:
+        "Experience world-class noise cancellation and superior sound quality with the Bose QuietComfort 35 II wireless headphones. Perfect for work or travel.",
+      category: "electronics",
+      image:
+        "https://plus.unsplash.com/premium_photo-1679513691485-711d030f7e94?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
 ];
 
 module.exports = { productsSeedData };
