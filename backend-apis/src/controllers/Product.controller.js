@@ -71,7 +71,11 @@ const searchProducts = async (req, res, next) => {
       return;
     }
 
-    const totalCount = await Product.countDocuments();
+    // clone searchPromise and get th total products with current search query
+    const clonedSearchPromise = searchPromise.clone();
+    // remove existing skip and limit options to get total count
+    clonedSearchPromise.limit(undefined).skip(undefined);
+    const totalCount = await clonedSearchPromise.countDocuments();
     res.status(200).send({
       data: products,
       totalCount
