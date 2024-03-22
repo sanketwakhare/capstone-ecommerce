@@ -91,7 +91,7 @@ function App() {
           txnOrderId: response.razorpay_order_id,
           txnPaymentId: response.razorpay_payment_id,
           txnPaymentStatus: "paid",
-          txnPaymentCompletedAt: Date.now(),
+          txnPaymentCompletedAt: new Date(),
           totalAmount: amount,
           currency: currency,
         });

@@ -17,7 +17,7 @@ const userSchemaType = {
   },
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: new Date()
   }
 };
 

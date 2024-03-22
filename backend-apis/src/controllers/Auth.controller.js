@@ -170,7 +170,7 @@ const validateOtp = async (req, res, next) => {
     // verify the otp
     const dbOtp = dbUserOtpObj.otp;
 
-    if (dbUserOtpObj?.expiresAt < Date.now()) {
+    if (dbUserOtpObj?.expiresAt < new Date()) {
       // delete otp entry from db
       await UserOtpMapping.findOneAndDelete({ userId: userId });
       throw new AppError(400, "OTP is expired. Please re-generate new OTP");
