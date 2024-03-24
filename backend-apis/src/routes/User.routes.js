@@ -3,11 +3,22 @@ const express = require("express");
 const { RoleType } = require("../common/constants/RoleType");
 const { authorization } = require("../common/middlewares/AuthorizationMiddleware");
 const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
-const { createUser, getUserById, getAllUsers, updateUser, deleteUser } = require("../controllers/User.controller");
+const {
+  createUser,
+  getUserById,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+  getProfile
+} = require("../controllers/User.controller");
 
 const userRoutes = express.Router();
 
 const initRoutes = () => {
+  /**
+   * get user details by id
+   */
+  userRoutes.get("/me", protectRoute, getProfile);
   /**
    * create a new user
    */
