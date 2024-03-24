@@ -132,11 +132,11 @@ const forgotPassword = async (req, res, next) => {
       otp: otp,
       userId: user.id
     });
-    await UserOtpMappingObject.save({ userId: user.id, otp: otp });
+    const createdOtpMapping = await UserOtpMappingObject.save({ userId: user.id, otp: otp });
 
     // send opt via email template
     const emailData = {
-      otp: otp,
+      otp: createdOtpMapping.otp,
       to: email
     };
     await sendOtpViaEmail(emailData);

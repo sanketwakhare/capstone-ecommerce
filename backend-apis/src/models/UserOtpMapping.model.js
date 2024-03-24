@@ -4,7 +4,10 @@ const { Collections } = require("../common/constants/Collections");
 const { Models } = require("../common/constants/Models");
 const { Schema } = mongoose;
 
-const DEFAULT_OTP_EXPIRY_TIME_IN_MINUTES = 30;
+const getExpiryTime = () => {
+  const DEFAULT_OTP_EXPIRY_TIME_IN_MINUTES = 30;
+  return new Date(new Date().getTime() + DEFAULT_OTP_EXPIRY_TIME_IN_MINUTES * 60 * 1000);
+};
 
 const usersOtpSchemaType = {
   otp: {
@@ -19,11 +22,11 @@ const usersOtpSchemaType = {
   expiresAt: {
     type: Date,
     required: true,
-    default: new Date(new Date().getTime() + DEFAULT_OTP_EXPIRY_TIME_IN_MINUTES * 60 * 1000)
+    default: getExpiryTime
   },
   createdAt: {
     type: Date,
-    default: new Date()
+    default: Date.now
   }
 };
 
