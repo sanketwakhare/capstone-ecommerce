@@ -2,11 +2,19 @@ const Order = require("../models/Order.model");
 
 const createOrder = async (req, res, next) => {
   try {
-    const { items, totalAmount, currency } = req.body;
+    const { items, currency = "INR" } = req.body;
+
+    const totalAmount = items?.reduce((acc, item) => {
+      const qty = item?.quantity ?? 0;
+      const itemPrice = item?.product?.price ?? 0;
+      acc += qty * itemPrice;
+      return acc;
+    }, 0);
+
     const newOrder = new Order({
       userId: req.userId,
       items: items,
-      totalAmount: totalAmount,
+      totalAmount,
       currency: currency
     });
 

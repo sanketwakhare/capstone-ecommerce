@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const Product = require("./Product.model");
 const { Collections } = require("../common/constants/Collections");
 const { Currencies } = require("../common/constants/Currencies");
 const { Models } = require("../common/constants/Models");
@@ -14,9 +15,8 @@ const orderSchemaType = {
   items: {
     type: [
       {
-        productId: mongoose.Types.ObjectId,
-        quantity: Number,
-        price: Number
+        product: Product.schema,
+        quantity: Number
       }
     ],
     required: true
