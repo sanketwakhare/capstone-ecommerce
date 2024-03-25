@@ -1,3 +1,7 @@
+const mongoose = require("mongoose");
+
+const { Models } = require("../common/constants/Models");
+const AppError = require("../common/errors/AppError");
 const Order = require("../models/Order.model");
 
 const createOrder = async (req, res, next) => {
@@ -26,4 +30,22 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { createOrder };
+const getOrderById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new AppError(400, `Invalid ${Models[Order.modelName]} id ${id}`);
+    }
+    const order = await Order.findById(id);
+    if (!order) {
+      throw new AppError(404, `${Models[Order.modelName]} with id ${id} not found`);
+    }
+    res.status(200).send({
+      data: order
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createOrder, getOrderById };
