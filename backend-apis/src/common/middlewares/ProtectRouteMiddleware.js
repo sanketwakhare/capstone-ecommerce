@@ -12,9 +12,9 @@ const protectRoute = async (req, res, next) => {
     }
     const token = splits[1];
     const decodedTokenData = await verifyToken(token);
-    const email = decodedTokenData.email;
+    const email = decodedTokenData?.email;
     const user = await User.findOne({ email: email });
-    req.userId = user.id;
+    req.userId = user?.id;
     next();
   } catch (error) {
     next(error);

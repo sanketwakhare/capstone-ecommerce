@@ -18,7 +18,12 @@ const createToken = async (payload) => {
       expiresIn: "30m",
       allowInsecureKeySizes: false
     });
-    return token;
+
+    // Decode the token to get the payload and expiry details
+    const decodedToken = jwt.decode(token, { complete: true });
+    const expiry = decodedToken?.payload?.exp;
+
+    return { token, expiry };
   } catch (error) {
     throw new AppError(500, "Error creating JWT token");
   }

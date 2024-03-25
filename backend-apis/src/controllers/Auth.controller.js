@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
     const payload = {
       email: email
     };
-    const token = await createToken(payload);
+    const auth = await createToken(payload);
     // res.cookie("token", token, {
     //   httpOnly: true,
     //   maxAge: 1000 * 60 * 30 // 30 mins
@@ -75,7 +75,7 @@ const login = async (req, res, next) => {
     // res.setHeader("x-access-token", token);
     res.status(200).send({
       message: "User logged in successfully",
-      token
+      auth
     });
   } catch (error) {
     next(error);
@@ -213,6 +213,23 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+// refresh token
+const refreshToken = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const payload = {
+      email: email
+    };
+    const auth = await createToken(payload);
+    res.status(200).send({
+      message: "Token refreshed successfully",
+      auth
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -220,7 +237,8 @@ module.exports = {
   logout,
   forgotPassword,
   validateOtp,
-  resetPassword
+  resetPassword,
+  refreshToken
 };
 
 // const sendEmailApi = async (req, res, next) => {

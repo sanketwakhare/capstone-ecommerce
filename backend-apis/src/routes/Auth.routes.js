@@ -10,7 +10,8 @@ const {
   logout,
   forgotPassword,
   resetPassword,
-  validateOtp
+  validateOtp,
+  refreshToken
 } = require("../controllers/Auth.controller");
 
 const authRoutes = express.Router();
@@ -28,6 +29,10 @@ const initRoutes = () => {
    * verify token
    */
   authRoutes.get("/verifyToken", verify);
+  /**
+   * verify token
+   */
+  authRoutes.post("/refresh-token", protectRoute, refreshToken);
   /**
    * logout
    */
