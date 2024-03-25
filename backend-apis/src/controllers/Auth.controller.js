@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
     const payload = {
       email: email
     };
-    const token = await createToken(payload);
+    const auth = await createToken(payload);
     // res.cookie("token", token, {
     //   httpOnly: true,
     //   maxAge: 1000 * 60 * 30 // 30 mins
@@ -75,7 +75,7 @@ const login = async (req, res, next) => {
     // res.setHeader("x-access-token", token);
     res.status(200).send({
       message: "User logged in successfully",
-      token
+      auth
     });
   } catch (error) {
     next(error);
