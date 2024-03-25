@@ -2,6 +2,7 @@ const { Models } = require("../common/constants/Models");
 const AppError = require("../common/errors/AppError");
 const CrudFactory = require("../common/factories/CrudFactory");
 const User = require("../models/User.model");
+const UserRoleMapping = require("../models/UserRoleMapping.model");
 
 const createUser = CrudFactory.create(User);
 const getUserById = CrudFactory.getById(User);
@@ -27,10 +28,15 @@ const getProfile = async (req, res, next) => {
     if (!user) {
       throw new AppError(404, `${Models[User]} with id ${userId} not found`);
     }
+
+    const userRoles = await UserRoleMapping.findOne({ userId: userId });
+    const roles = userRoles?.roles || [];
+
     res.status(200).send({
       data: {
         userId: user.id,
-        email: user.email
+        email: user.email,
+        roles: roles
       }
     });
   } catch (error) {
