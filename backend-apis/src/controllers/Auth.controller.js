@@ -213,6 +213,23 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+// refresh token
+const refreshToken = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const payload = {
+      email: email
+    };
+    const auth = await createToken(payload);
+    res.status(200).send({
+      message: "Token refreshed successfully",
+      auth
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -220,7 +237,8 @@ module.exports = {
   logout,
   forgotPassword,
   validateOtp,
-  resetPassword
+  resetPassword,
+  refreshToken
 };
 
 // const sendEmailApi = async (req, res, next) => {
