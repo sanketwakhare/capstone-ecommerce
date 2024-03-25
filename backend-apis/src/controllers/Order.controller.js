@@ -48,4 +48,30 @@ const getOrderById = async (req, res, next) => {
   }
 };
 
-module.exports = { createOrder, getOrderById };
+// this api for ADMIN users only
+const getOrdersByUserId = async (req, res, next) => {
+  try {
+    const userId = req.params?.userId;
+    const orders = (await Order.find({ userId: userId })) ?? [];
+    res.status(200).send({
+      data: orders
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// this api is for current logged in user
+const getUserOrders = async (req, res, next) => {
+  try {
+    const { userId } = req;
+    const orders = (await Order.find({ userId: userId })) ?? [];
+    res.status(200).send({
+      data: orders
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createOrder, getOrderById, getOrdersByUserId, getUserOrders };
