@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 
 const { Models } = require("../common/constants/Models");
+const { OrderStatus } = require("../common/constants/OrderTypes");
 const AppError = require("../common/errors/AppError");
+const CrudFactory = require("../common/factories/CrudFactory");
 const Order = require("../models/Order.model");
 
 const createOrder = async (req, res, next) => {
   try {
     const { items, currency = "INR" } = req.body;
+    const status = OrderStatus.PENDING;
 
     const totalAmount = items?.reduce((acc, item) => {
       const qty = item?.quantity ?? 0;
@@ -17,9 +20,10 @@ const createOrder = async (req, res, next) => {
 
     const newOrder = new Order({
       userId: req.userId,
-      items: items,
+      items,
       totalAmount,
-      currency: currency
+      currency,
+      status
     });
 
     const order = await newOrder.save();
@@ -74,4 +78,30 @@ const getUserOrders = async (req, res, next) => {
   }
 };
 
-module.exports = { createOrder, getOrderById, getOrdersByUserId, getUserOrders };
+// delete order by id
+const deleteOrderById = CrudFactory.delete(Order);
+
+// this api is for current logged in user
+const updateOrderStatus = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new AppError(400, `Invalid ${Models[Order.modelName]} id ${id}`);
+    }
+    const status = req.body?.status ?? null;
+    if (!status) {
+      throw new AppError(400, "Invalid status");
+    }
+    await Order.findByIdAndUpdate(id, {
+      status
+    });
+    res.status(200).send({
+      message: `Order status updated successfully`,
+      data: await Order.findById(id)
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createOrder, getOrderById, getOrdersByUserId, getUserOrders, deleteOrderById, updateOrderStatus };

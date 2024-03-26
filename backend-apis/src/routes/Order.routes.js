@@ -3,7 +3,14 @@ const express = require("express");
 const { RoleType } = require("../common/constants/RoleType");
 const { authorizeOrderAccess, authorization } = require("../common/middlewares/AuthorizationMiddleware");
 const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
-const { createOrder, getOrderById, getOrdersByUserId, getUserOrders } = require("../controllers/Order.controller");
+const {
+  createOrder,
+  getOrderById,
+  getOrdersByUserId,
+  getUserOrders,
+  deleteOrderById,
+  updateOrderStatus
+} = require("../controllers/Order.controller");
 
 const orderRoutes = express.Router();
 
@@ -24,6 +31,14 @@ const initRoutes = () => {
    * get an order by id
    */
   orderRoutes.get("/:id", protectRoute, authorizeOrderAccess([RoleType.ADMIN]), getOrderById);
+  /**
+   * get an order by id
+   */
+  orderRoutes.delete("/:id", protectRoute, authorization([RoleType.ADMIN]), deleteOrderById);
+  /**
+   * update order status by id
+   */
+  orderRoutes.put("/:id", protectRoute, authorizeOrderAccess([RoleType.ADMIN]), updateOrderStatus);
 };
 initRoutes();
 

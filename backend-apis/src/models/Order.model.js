@@ -4,6 +4,7 @@ const Product = require("./Product.model");
 const { Collections } = require("../common/constants/Collections");
 const { Currencies } = require("../common/constants/Currencies");
 const { Models } = require("../common/constants/Models");
+const { SupportedOrderStatuses } = require("../common/constants/OrderTypes");
 const { Schema } = mongoose;
 
 const orderSchemaType = {
@@ -29,6 +30,11 @@ const orderSchemaType = {
     type: String,
     required: true,
     default: Currencies.INR
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: SupportedOrderStatuses
   },
   createdAt: {
     type: Date,
