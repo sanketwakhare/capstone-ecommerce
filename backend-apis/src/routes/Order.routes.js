@@ -6,10 +6,10 @@ const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware")
 const {
   createOrder,
   getOrderById,
-  getOrdersByUserId,
   getUserOrders,
   deleteOrderById,
-  updateOrderStatus
+  updateOrderStatus,
+  searchOrders
 } = require("../controllers/Order.controller");
 
 const orderRoutes = express.Router();
@@ -22,7 +22,7 @@ const initRoutes = () => {
   /**
    * get all orders of user :userId
    */
-  orderRoutes.get("/orders-by-user-id/:userId", protectRoute, authorization([RoleType.ADMIN]), getOrdersByUserId);
+  orderRoutes.get("/search", protectRoute, authorization([RoleType.ADMIN]), searchOrders);
   /**
    * get all orders of current logged in user
    */

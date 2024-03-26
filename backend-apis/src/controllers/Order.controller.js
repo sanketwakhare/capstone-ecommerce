@@ -58,12 +58,24 @@ const getOrderById = async (req, res, next) => {
 };
 
 // this api for ADMIN users only
-const getOrdersByUserId = async (req, res, next) => {
+const searchOrders = async (req, res, next) => {
   try {
-    const userId = req.params?.userId;
-    const orders = (await Order.find({ userId: userId })) ?? [];
+    const query = req.query;
+    const userId = query?.userId;
+    const searchPromise = Order.find({ userId: userId });
+
+    // search orders
+    const orders = (await searchPromise) ?? [];
+
+    // get total count of orders for given search criteria
+    const clonedSearchPromise = searchPromise.clone();
+    // remove existing skip and limit options to get total count
+    clonedSearchPromise.limit(undefined).skip(undefined);
+    const totalCount = await clonedSearchPromise.countDocuments();
+
     res.status(200).send({
-      data: orders
+      data: orders,
+      totalCount
     });
   } catch (error) {
     next(error);
@@ -118,4 +130,4 @@ const updateOrderStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { createOrder, getOrderById, getOrdersByUserId, getUserOrders, deleteOrderById, updateOrderStatus };
+module.exports = { createOrder, getOrderById, searchOrders, getUserOrders, deleteOrderById, updateOrderStatus };
