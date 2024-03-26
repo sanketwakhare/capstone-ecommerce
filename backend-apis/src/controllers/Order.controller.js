@@ -5,6 +5,7 @@ const { OrderStatus, SupportedOrderStatuses } = require("../common/constants/Ord
 const AppError = require("../common/errors/AppError");
 const CrudFactory = require("../common/factories/CrudFactory");
 const Order = require("../models/Order.model");
+const User = require("../models/User.model");
 
 const createOrder = async (req, res, next) => {
   try {
@@ -62,8 +63,12 @@ const searchOrders = async (req, res, next) => {
   try {
     const query = req.query;
     const userId = query?.userId;
-    const searchPromise = Order.find({ userId: userId });
 
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw new AppError(400, `Invalid ${Models[User.modelName]} id ${userId}`);
+    }
+
+    const searchPromise = Order.find({ userId: userId });
     // search orders
     const orders = (await searchPromise) ?? [];
 

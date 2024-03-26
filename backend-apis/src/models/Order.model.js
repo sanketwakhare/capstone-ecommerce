@@ -47,22 +47,6 @@ const orderSchemaType = {
     required: true,
     default: Currencies.INR
   },
-  // history: {
-  //   type: [
-  //     {
-  //       status: {
-  //         type: String,
-  //         required: true,
-  //         enum: SupportedOrderStatuses
-  //       },
-  //       updatedAt: {
-  //         type: Date,
-  //         required: true,
-  //         default: Date.now
-  //       }
-  //     }
-  //   ]
-  // },
   history: {
     type: [orderHistorySchemaType]
   },
