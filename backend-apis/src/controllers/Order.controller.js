@@ -94,6 +94,7 @@ const updateOrderStatus = async (req, res, next) => {
       throw new AppError(400, `Invalid ${Models[Order.modelName]} id ${id}`);
     }
     const status = req.body?.status ?? null;
+    const comments = req.body?.comments ?? null;
     if (!SupportedOrderStatuses.includes(status)) {
       throw new AppError(400, `Invalid status ${status}`);
     }
@@ -105,7 +106,7 @@ const updateOrderStatus = async (req, res, next) => {
     const currentTime = Date.now();
     await Order.findByIdAndUpdate(id, {
       status,
-      history: [...currentOrder.history, { status, updatedAt: currentTime }],
+      history: [...currentOrder.history, { status, comments, updatedAt: currentTime }],
       updatedAt: currentTime
     });
     res.status(200).send({

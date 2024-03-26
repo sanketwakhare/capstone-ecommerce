@@ -13,6 +13,9 @@ const orderHistorySchemaType = {
     required: true,
     enum: SupportedOrderStatuses
   },
+  comments: {
+    type: String
+  },
   updatedAt: {
     type: Date,
     required: true,
