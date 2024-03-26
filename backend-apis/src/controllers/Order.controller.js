@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const { Models } = require("../common/constants/Models");
-const { OrderStatus } = require("../common/constants/OrderTypes");
+const { OrderStatus, SupportedOrderStatuses } = require("../common/constants/OrderTypes");
 const AppError = require("../common/errors/AppError");
 const CrudFactory = require("../common/factories/CrudFactory");
 const Order = require("../models/Order.model");
@@ -23,7 +23,12 @@ const createOrder = async (req, res, next) => {
       items,
       totalAmount,
       currency,
-      status
+      status,
+      history: [
+        {
+          status
+        }
+      ]
     });
 
     const order = await newOrder.save();
@@ -89,11 +94,19 @@ const updateOrderStatus = async (req, res, next) => {
       throw new AppError(400, `Invalid ${Models[Order.modelName]} id ${id}`);
     }
     const status = req.body?.status ?? null;
-    if (!status) {
-      throw new AppError(400, "Invalid status");
+    if (!SupportedOrderStatuses.includes(status)) {
+      throw new AppError(400, `Invalid status ${status}`);
     }
+    // Retrieve the current order document
+    const currentOrder = await Order.findById(id);
+    if (!currentOrder) {
+      throw new AppError(404, "Order not found");
+    }
+    const currentTime = Date.now();
     await Order.findByIdAndUpdate(id, {
-      status
+      status,
+      history: [...currentOrder.history, { status, updatedAt: currentTime }],
+      updatedAt: currentTime
     });
     res.status(200).send({
       message: `Order status updated successfully`,

@@ -7,6 +7,19 @@ const { Models } = require("../common/constants/Models");
 const { SupportedOrderStatuses } = require("../common/constants/OrderTypes");
 const { Schema } = mongoose;
 
+const orderHistorySchemaType = {
+  status: {
+    type: String,
+    required: true,
+    enum: SupportedOrderStatuses
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+};
+
 const orderSchemaType = {
   userId: {
     type: mongoose.Types.ObjectId,
@@ -31,10 +44,33 @@ const orderSchemaType = {
     required: true,
     default: Currencies.INR
   },
+  // history: {
+  //   type: [
+  //     {
+  //       status: {
+  //         type: String,
+  //         required: true,
+  //         enum: SupportedOrderStatuses
+  //       },
+  //       updatedAt: {
+  //         type: Date,
+  //         required: true,
+  //         default: Date.now
+  //       }
+  //     }
+  //   ]
+  // },
+  history: {
+    type: [orderHistorySchemaType]
+  },
   status: {
     type: String,
     required: true,
     enum: SupportedOrderStatuses
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   },
   createdAt: {
     type: Date,
