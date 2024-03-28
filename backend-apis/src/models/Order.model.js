@@ -4,7 +4,7 @@ const Product = require("./Product.model");
 const { Collections } = require("../common/constants/Collections");
 const { Currencies } = require("../common/constants/Currencies");
 const { Models } = require("../common/constants/Models");
-const { SupportedOrderStatuses } = require("../common/constants/OrderTypes");
+const { SupportedOrderStatuses } = require("../common/constants/OrderStatus");
 const { Schema } = mongoose;
 
 const orderHistorySchemaType = {

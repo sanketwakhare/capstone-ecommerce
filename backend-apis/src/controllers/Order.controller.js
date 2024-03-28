@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const { Models } = require("../common/constants/Models");
-const { OrderStatus, SupportedOrderStatuses } = require("../common/constants/OrderTypes");
+const { OrderStatus, SupportedOrderStatuses } = require("../common/constants/OrderStatus");
 const AppError = require("../common/errors/AppError");
 const CrudFactory = require("../common/factories/CrudFactory");
 const Order = require("../models/Order.model");
@@ -10,7 +10,7 @@ const User = require("../models/User.model");
 const createOrder = async (req, res, next) => {
   try {
     const { items, currency = "INR" } = req.body;
-    const status = OrderStatus.PENDING;
+    const status = OrderStatus.PROCESSING;
 
     const totalAmount = items?.reduce((acc, item) => {
       const qty = item?.quantity ?? 0;
@@ -91,7 +91,9 @@ const searchOrders = async (req, res, next) => {
 const getUserOrders = async (req, res, next) => {
   try {
     const { userId } = req;
-    const orders = (await Order.find({ userId: userId })) ?? [];
+    const orderPromise = Order.find({ userId: userId });
+    orderPromise.sort("-updatedAt");
+    const orders = (await orderPromise) ?? [];
     res.status(200).send({
       data: orders
     });
