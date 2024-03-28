@@ -4,16 +4,19 @@ const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware")
 const {
   createTxnPaymentOrder,
   verifyPaymentSignature,
-  capturePaymentTransaction
+  capturePaymentTransaction,
+  getPaymentTransactionsByOrderId,
+  updatePaymentTransaction
 } = require("../controllers/Payment.controller");
 
 const paymentRoutes = express.Router();
 
 const initRoutes = () => {
+  // TODO: fix authorization
   /**
    * create a payment transaction order
    */
-  paymentRoutes.post("/", protectRoute, createTxnPaymentOrder);
+  paymentRoutes.post("/create-payment-order", protectRoute, createTxnPaymentOrder);
   /**
    * verify payment signature
    */
@@ -22,6 +25,14 @@ const initRoutes = () => {
    * capture payment transaction
    */
   paymentRoutes.post("/capture-payment-transaction", protectRoute, capturePaymentTransaction);
+  /**
+   * get payment transactions by order id
+   */
+  paymentRoutes.get("/get-payment-transactions-for-order/:orderId", protectRoute, getPaymentTransactionsByOrderId);
+  /**
+   * update payment transactions by txn order id
+   */
+  paymentRoutes.put("/update-payment-transaction/:txnOrderId", protectRoute, updatePaymentTransaction);
 };
 initRoutes();
 

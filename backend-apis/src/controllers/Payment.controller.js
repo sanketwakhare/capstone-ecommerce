@@ -15,11 +15,11 @@ const createTxnPaymentOrder = async (req, res, next) => {
       key_secret: RAZORPAY_PRIVATE_KEY
     });
 
-    const { amount, currency } = req.body;
+    const { amount, currency, orderId = shortid.generate() } = req.body;
     const options = {
-      amount: amount,
+      amount: amount * 100,
       currency: currency ?? Currencies.INR,
-      receipt: shortid.generate()
+      receipt: orderId
     };
 
     // create a payment order
@@ -27,7 +27,8 @@ const createTxnPaymentOrder = async (req, res, next) => {
 
     res.status(200).json({
       message: "Payment order created successfully",
-      orderId: orderDetails.id,
+      paymentTxnOrderId: orderDetails.id,
+      orderId: orderDetails.receipt,
       amount: orderDetails.amount,
       currency: orderDetails.currency
     });
@@ -39,12 +40,12 @@ const createTxnPaymentOrder = async (req, res, next) => {
 const verifyPaymentSignature = async (req, res, next) => {
   try {
     const { RAZORPAY_PRIVATE_KEY } = process.env;
-    const { orderId, paymentId } = req.body;
+    const { paymentTxnOrderId, paymentId } = req.body;
     const razorpaySignature = req.headers["x-razorpay-signature"];
 
     const freshSignature = crypto
       .createHmac("sha256", RAZORPAY_PRIVATE_KEY)
-      .update(orderId + "|" + paymentId)
+      .update(paymentTxnOrderId + "|" + paymentId)
       .digest("hex");
     if (razorpaySignature !== freshSignature) {
       throw new AppError(400, "Invalid payment signature");
@@ -57,8 +58,7 @@ const verifyPaymentSignature = async (req, res, next) => {
 
 const capturePaymentTransaction = async (req, res, next) => {
   try {
-    const { orderId, txnOrderId, txnPaymentId, txnPaymentStatus, txnPaymentCompletedAt, totalAmount, currency } =
-      req.body;
+    const { orderId, txnOrderId, txnPaymentId, txnPaymentStatus, txnPaymentCompletedAt, amount, currency } = req.body;
 
     const paymentTransaction = new Payment({
       orderId,
@@ -66,7 +66,7 @@ const capturePaymentTransaction = async (req, res, next) => {
       txnPaymentId,
       txnPaymentStatus,
       txnPaymentCompletedAt,
-      totalAmount,
+      amount,
       currency
     });
 
@@ -78,8 +78,47 @@ const capturePaymentTransaction = async (req, res, next) => {
   }
 };
 
+const getPaymentTransactionsByOrderId = async (req, res, next) => {
+  try {
+    const { orderId } = req.params;
+    if (!orderId) {
+      new AppError(404, "Invalid orderId");
+    }
+    const paymentTransactions = await Payment.find({ orderId: orderId });
+    res.status(200).send({ data: paymentTransactions });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updatePaymentTransaction = async (req, res, next) => {
+  try {
+    const txnOrderId = req.params?.txnOrderId;
+    const { txnPaymentId, txnPaymentStatus, txnPaymentCompletedAt } = req.body;
+
+    const paymentDetails = await Payment.findOneAndUpdate(
+      { txnOrderId: txnOrderId },
+      {
+        txnPaymentId,
+        txnPaymentStatus,
+        txnPaymentCompletedAt
+      }
+    );
+
+    if (!paymentDetails) {
+      throw new AppError(400, "payment transaction not found");
+    }
+    const updatedDetails = await Payment.findOne({ txnOrderId });
+    res.status(200).send({ message: "Payment transaction updated", data: updatedDetails });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createTxnPaymentOrder,
   verifyPaymentSignature,
-  capturePaymentTransaction
+  capturePaymentTransaction,
+  getPaymentTransactionsByOrderId,
+  updatePaymentTransaction
 };
