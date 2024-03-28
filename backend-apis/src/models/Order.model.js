@@ -1,9 +1,27 @@
 const mongoose = require("mongoose");
 
+const Product = require("./Product.model");
 const { Collections } = require("../common/constants/Collections");
 const { Currencies } = require("../common/constants/Currencies");
 const { Models } = require("../common/constants/Models");
+const { SupportedOrderStatuses } = require("../common/constants/OrderStatus");
 const { Schema } = mongoose;
+
+const orderHistorySchemaType = {
+  status: {
+    type: String,
+    required: true,
+    enum: SupportedOrderStatuses
+  },
+  comments: {
+    type: String
+  },
+  updatedAt: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+};
 
 const orderSchemaType = {
   userId: {
@@ -14,9 +32,8 @@ const orderSchemaType = {
   items: {
     type: [
       {
-        productId: mongoose.Types.ObjectId,
-        quantity: Number,
-        price: Number
+        product: Product.schema,
+        quantity: Number
       }
     ],
     required: true
@@ -29,6 +46,18 @@ const orderSchemaType = {
     type: String,
     required: true,
     default: Currencies.INR
+  },
+  history: {
+    type: [orderHistorySchemaType]
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: SupportedOrderStatuses
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   },
   createdAt: {
     type: Date,

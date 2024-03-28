@@ -1,6 +1,6 @@
 const ErrorMessages = {
   // common errors
-  UNAUTHORIZED_ACCESS: "Access denied",
+  UNAUTHORIZED_ACCESS: "Unauthorized Access: Access to this resource is restricted.",
   INTERNAL_SERVER_ERROR: "Internal server error",
 
   // field errors
