@@ -15,6 +15,22 @@ const userSchemaType = {
     required: true,
     minlength: 8
   },
+  name: {
+    type: String,
+    required: true,
+    trim: true // Remove leading/trailing whitespace
+  },
+  mobile: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  imageUrl: {
+    type: String
+  },
+  updatedAt: {
+    type: Date
+  },
   createdAt: {
     type: Date,
     default: Date.now

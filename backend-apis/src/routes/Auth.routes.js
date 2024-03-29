@@ -2,7 +2,11 @@ const express = require("express");
 
 const { fieldValidationMiddleware } = require("../common/middlewares/FieldValidationMiddleware");
 const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
-const { emailValidator, passwordValidator } = require("../common/services/validators/FieldValidatorService");
+const {
+  emailValidator,
+  passwordValidator,
+  mobileNumberValidator
+} = require("../common/services/validators/FieldValidatorService");
 const {
   signup,
   login,
@@ -20,7 +24,12 @@ const initRoutes = () => {
   /**
    * signup
    */
-  authRoutes.post("/signup", [emailValidator(), passwordValidator()], fieldValidationMiddleware, signup);
+  authRoutes.post(
+    "/signup",
+    [emailValidator(), passwordValidator(), mobileNumberValidator()],
+    fieldValidationMiddleware,
+    signup
+  );
   /**
    * login
    */

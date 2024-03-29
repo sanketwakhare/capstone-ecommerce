@@ -12,7 +12,7 @@ const UserRoleMapping = require("../models/UserRoleMapping.model");
 const signup = async (req, res, next) => {
   try {
     // if user exist in data base, then only issue a token
-    const { email, password } = req.body;
+    const { name, email, password, mobile } = req.body;
     const user = await User.findOne({ email: email });
     if (user) {
       // user already exists
@@ -23,8 +23,10 @@ const signup = async (req, res, next) => {
     const hashedPassword = await hashPassword(password);
 
     const newUser = await User.create({
+      name,
       email: email,
-      password: hashedPassword
+      password: hashedPassword,
+      mobile
     });
     if (newUser) {
       res.status(200).send({

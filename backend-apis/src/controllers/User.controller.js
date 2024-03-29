@@ -36,6 +36,8 @@ const getProfile = async (req, res, next) => {
       data: {
         userId: user.id,
         email: user.email,
+        mobile: user.mobile,
+        name: user.name,
         roles: roles
       }
     });

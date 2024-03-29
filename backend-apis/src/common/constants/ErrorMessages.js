@@ -6,7 +6,8 @@ const ErrorMessages = {
   // field errors
   INVALID_EMAIL: "Invalid email address.",
   INVALID_PASSWORD:
-    "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
+    "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+  INVALID_MOBILE_NUMBER: "Invalid mobile number. Please enter a 10-digit number."
 };
 
 module.exports = { ErrorMessages };

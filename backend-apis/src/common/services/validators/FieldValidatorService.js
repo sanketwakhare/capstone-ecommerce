@@ -62,7 +62,33 @@ const passwordValidator = (options) => {
   );
 };
 
+/**
+ * Custom mobile number validation middleware using express-validator.
+ * @param {Object} options - Options for mobile number validation.
+ * @param {string} options.field - The name of the field containing the mobile number in the request (default is 'mobile').
+ * @param {string} options.message - Custom error message for invalid mobile numbers.
+ * @returns {Object} - express-validator chain for mobile number validation.
+ */
+const mobileNumberValidator = (options) => {
+  // Default values for field name and error message
+  const defaultField = Fields.MOBILE_NUMBER;
+  const defaultMessage = ErrorMessages.INVALID_MOBILE_NUMBER;
+
+  // Regular expression pattern for exactly 10 digits
+  const mobileNumberPattern = /^\d{10}$/;
+
+  // Use express-validator's body method to create the validation chain
+  return (
+    body(options?.field ?? defaultField)
+      // Apply matches rule with the regular expression pattern
+      .matches(mobileNumberPattern)
+      // Attach custom error message or use the default one
+      .withMessage(options?.message ?? defaultMessage)
+  );
+};
+
 module.exports = {
   emailValidator,
-  passwordValidator
+  passwordValidator,
+  mobileNumberValidator
 };
