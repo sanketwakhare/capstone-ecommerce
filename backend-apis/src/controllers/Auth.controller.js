@@ -19,6 +19,12 @@ const signup = async (req, res, next) => {
       throw new AppError(400, `User ${email} already exists`);
     }
 
+    const userWithSameMobile = await User.findOne({ mobile: mobile });
+    if (userWithSameMobile) {
+      // mobile number already exists
+      throw new AppError(400, `Mobile number ${mobile} already in use`);
+    }
+
     // hash password
     const hashedPassword = await hashPassword(password);
 

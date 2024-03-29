@@ -87,8 +87,31 @@ const mobileNumberValidator = (options) => {
   );
 };
 
+/**
+ * Custom name validation middleware using express-validator.
+ * @param {Object} options - Options for name validation.
+ * @param {string} options.field - The name of the field containing the name in the request (default is 'name').
+ * @param {string} options.message - Custom error message for invalid names.
+ * @returns {Object} - express-validator chain for name validation.
+ */
+const nameValidator = (options) => {
+  // Default values for field name and error message
+  const defaultField = Fields.USERNAME;
+  const defaultMessage = ErrorMessages.INVALID_USERNAME;
+
+  // Use express-validator's body method to create the validation chain
+  return (
+    body(options?.field ?? defaultField)
+      // Apply custom validation rule for name length
+      .isLength({ min: 3 })
+      // Attach custom error message or use the default one
+      .withMessage(options?.message ?? defaultMessage)
+  );
+};
+
 module.exports = {
   emailValidator,
   passwordValidator,
-  mobileNumberValidator
+  mobileNumberValidator,
+  nameValidator
 };

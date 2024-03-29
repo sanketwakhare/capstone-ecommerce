@@ -5,7 +5,8 @@ const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware")
 const {
   emailValidator,
   passwordValidator,
-  mobileNumberValidator
+  mobileNumberValidator,
+  nameValidator
 } = require("../common/services/validators/FieldValidatorService");
 const {
   signup,
@@ -26,7 +27,7 @@ const initRoutes = () => {
    */
   authRoutes.post(
     "/signup",
-    [emailValidator(), passwordValidator(), mobileNumberValidator()],
+    [emailValidator(), nameValidator(), passwordValidator(), mobileNumberValidator()],
     fieldValidationMiddleware,
     signup
   );

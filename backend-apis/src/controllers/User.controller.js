@@ -46,11 +46,55 @@ const getProfile = async (req, res, next) => {
   }
 };
 
+const updateProfile = async (req, res, next) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    const { userId } = req;
+    const { name = null, mobile = null } = req.body;
+    const fieldsToUpdate = {};
+    if (name !== null) {
+      fieldsToUpdate.name = name;
+    }
+    if (mobile) {
+      fieldsToUpdate.mobile = mobile;
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new AppError(404, `${Models[User]} with id ${userId} not found`);
+    }
+
+    const userWithSameMobile = await User.findOne({ mobile: mobile });
+    if (userWithSameMobile && userWithSameMobile.id !== user.id) {
+      // mobile number already exists
+      throw new AppError(400, `Mobile number ${mobile} already in use`);
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId }, // Query to find the user
+      fieldsToUpdate, // New values to set
+      { new: true } // Return the modified document instead of the original
+    );
+    if (!updateUser) {
+      throw new AppError(400, "User not found");
+    }
+
+    res.status(200).send({
+      data: {
+        mobile: updatedUser?.mobile,
+        name: updatedUser?.name
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createUser,
   getUserById,
   updateUser,
   deleteUser,
   getAllUsers,
-  getProfile
+  getProfile,
+  updateProfile
 };

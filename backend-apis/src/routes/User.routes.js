@@ -2,14 +2,17 @@ const express = require("express");
 
 const { RoleType } = require("../common/constants/RoleType");
 const { authorization } = require("../common/middlewares/AuthorizationMiddleware");
+const { fieldValidationMiddleware } = require("../common/middlewares/FieldValidationMiddleware");
 const { protectRoute } = require("../common/middlewares/ProtectRouteMiddleware");
+const { mobileNumberValidator, nameValidator } = require("../common/services/validators/FieldValidatorService");
 const {
   createUser,
   getUserById,
   getAllUsers,
   updateUser,
   deleteUser,
-  getProfile
+  getProfile,
+  updateProfile
 } = require("../controllers/User.controller");
 
 const userRoutes = express.Router();
@@ -19,6 +22,16 @@ const initRoutes = () => {
    * get user details by id
    */
   userRoutes.get("/me", protectRoute, getProfile);
+  /**
+   * update user details by id
+   */
+  userRoutes.put(
+    "/update-profile",
+    protectRoute,
+    [nameValidator(), mobileNumberValidator()],
+    fieldValidationMiddleware,
+    updateProfile
+  );
   /**
    * create a new user
    */
