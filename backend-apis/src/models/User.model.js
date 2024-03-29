@@ -18,6 +18,7 @@ const userSchemaType = {
   name: {
     type: String,
     required: true,
+    minlength: 3,
     trim: true // Remove leading/trailing whitespace
   },
   mobile: {
