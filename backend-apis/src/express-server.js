@@ -47,10 +47,10 @@ const initServer = async () => {
   // Middleware to handle server errors
   app.use(internalServerErrorHandler);
 
-  const hostname = process.env.HOST;
-  const port = process.env.PORT;
-  app.listen(port, hostname, () => {
-    console.log(`Server is running at http://${hostname}:${port}/`);
+  // const hostname = process.env.HOST;
+  // const port = process.env.PORT;
+  app.listen(() => {
+    console.log(`Server started`);
   });
 };
 
