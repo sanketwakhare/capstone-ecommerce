@@ -24,7 +24,7 @@ const initServer = async () => {
 
   // enables cross-origin resource sharing
   // app.use(cors());
-  app.use(cors({ exposedHeaders: ["Authorization"], origin: ["capstone-shophub.netlify.app"] }));
+  app.use(cors({ exposedHeaders: ["Authorization"], origin: ["https://capstone-shophub.netlify.app"] }));
 
   // rate limiter to protect against brute force or DDoS attacks
   app.use(slowDownRateLimiter);
