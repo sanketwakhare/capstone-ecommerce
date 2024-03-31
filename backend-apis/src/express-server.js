@@ -48,9 +48,9 @@ const initServer = async () => {
   app.use(internalServerErrorHandler);
 
   // const hostname = process.env.HOST;
-  // const port = process.env.PORT;
-  app.listen(() => {
-    console.log(`Server started`);
+  const port = process.env.PORT;
+  app.listen(port, () => {
+    console.log(`Server started on ${port}`);
   });
 };
 
