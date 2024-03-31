@@ -10,7 +10,7 @@ const User = require("../models/User.model");
 const createOrder = async (req, res, next) => {
   try {
     const { items, currency = "INR" } = req.body;
-    const status = OrderStatus.PROCESSING;
+    const status = OrderStatus.ORDER_INITIATED;
 
     const totalAmount = items?.reduce((acc, item) => {
       const qty = item?.quantity ?? 0;
