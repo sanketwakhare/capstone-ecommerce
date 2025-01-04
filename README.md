@@ -24,7 +24,6 @@ The backend APIs provide the following functionalities:
 ## 🚀 Installation
 
 ### Prerequisites
-
 Ensure you have the following installed on your machine:
 
 - Node.js (v14 or higher)
@@ -88,30 +87,6 @@ Ensure you have the following installed on your machine:
 
 The backend server will start running on [http://localhost:3001](http://localhost:3001).
 
-## 📂 Folder Structure
-
-```bash
-backend-apis
-├── config
-│   └── db.js         # Database connection setup
-├── controllers
-│   ├── authController.js   # Handles user authentication
-│   ├── orderController.js  # Manages orders
-│   └── productController.js  # Manages products
-├── models
-│   ├── User.js       # User schema
-│   ├── Product.js    # Product schema
-│   └── Order.js      # Order schema
-├── routes
-│   ├── authRoutes.js     # Authentication routes
-│   ├── orderRoutes.js    # Order routes
-│   └── productRoutes.js  # Product routes
-├── utils
-│   └── generateToken.js  # Helper function to generate JWT
-├── .env.example
-├── package.json
-└── server.js
-```
 
 ## 📌 Available APIs
 
