@@ -86,7 +86,7 @@ Ensure you have the following installed on your machine:
     npm start
     ```
 
-The backend server will start running on [http://localhost:5000](http://localhost:5000).
+The backend server will start running on [http://localhost:3001](http://localhost:3001).
 
 ## 📂 Folder Structure
 
